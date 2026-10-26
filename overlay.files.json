@@ -70,6 +70,10 @@
       "sha256": "fcb739cf7754da32debf6b4b788406bfcdfa0f8c3e0ef3f71e70844859bcfc32"
     },
     {
+      "path": "docs/upstream-files/.env.example.json",
+      "sha256": "b801d7846ef454be7e14dc79520cef79acd470fce65d5be2053a1dea801acf84"
+    },
+    {
       "path": "docs/upstream-files/.gitignore.json",
       "sha256": "ee6ef9309664ddf587e9107b043d93dd92f237dcf719d282135cd0982914cf0b"
     },
