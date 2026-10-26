@@ -1,3 +1,4 @@
+import {assertOfficialCloudAvailable} from '../config/cloud';
 import {Platform} from 'react-native';
 
 import axios from 'axios';
@@ -66,6 +67,7 @@ export type ModelLoadErrorReportData = {
 export async function submitContentReport(
   reportData: Omit<ContentReportData, 'appFeedbackId'>,
 ): Promise<{message: string}> {
+  assertOfficialCloudAvailable();
   try {
     // Check network connectivity first
     const isConnected = await checkConnectivity();
@@ -148,6 +150,7 @@ export async function submitContentReport(
 export async function submitFeedback(
   feedbackData: Omit<FeedbackData, 'appFeedbackId'>,
 ): Promise<{message: string}> {
+  assertOfficialCloudAvailable();
   try {
     // Check network connectivity first
     const isConnected = await checkConnectivity();
@@ -243,6 +246,7 @@ export async function submitFeedback(
 export async function submitModelLoadErrorReport(
   reportData: Omit<ModelLoadErrorReportData, 'appFeedbackId'>,
 ): Promise<{message: string}> {
+  assertOfficialCloudAvailable();
   try {
     // Check network connectivity first
     const isConnected = await checkConnectivity();

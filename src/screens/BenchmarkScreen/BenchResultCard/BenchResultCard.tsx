@@ -1,3 +1,4 @@
+import {officialCloudEnabled} from '../../../config/cloud';
 import React, {useState, useContext} from 'react';
 import {View, Linking} from 'react-native';
 
@@ -306,7 +307,11 @@ export const BenchResultCard = ({result, onDelete, onShare}: Props) => {
         </View>
 
         <View style={styles.footer}>
-          {result.submitted ? (
+          {!officialCloudEnabled ? (
+            <Text variant="bodySmall">
+              Local benchmark results stay on this device.
+            </Text>
+          ) : result.submitted ? (
             <View style={styles.shareContainer}>
               <Text variant="bodySmall" style={styles.submittedText}>
                 {l10n.benchmark.benchmarkResultCard.actions.submittedText}{' '}

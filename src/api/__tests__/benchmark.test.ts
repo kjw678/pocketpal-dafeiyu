@@ -1,3 +1,7 @@
+jest.mock('../../config/cloud', () => ({
+  assertOfficialCloudAvailable: jest.fn(),
+}));
+
 import axios from 'axios';
 import {submitBenchmark} from '../benchmark';
 import * as utils from '../../utils/fb';

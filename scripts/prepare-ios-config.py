@@ -13,7 +13,30 @@ import re
 root = Path(__file__).resolve().parents[1]
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--from-environment', action='store_true')
+parser.add_argument('--local', action='store_true', help='Validate the independent build; no upstream credentials')
 args = parser.parse_args()
+if args.local:
+    if args.from_environment:
+        raise SystemExit('Choose local mode or supplied service configuration, not both.')
+    import json
+    package = json.loads((root / 'package.json').read_text())
+    if any(name.startswith('@react-native-firebase/') for name in package['dependencies']):
+        raise SystemExit('Local mode must not link React Native Firebase.')
+    project = (root / 'ios/PocketPal.xcodeproj/project.pbxproj').read_text()
+    delegate = (root / 'ios/PocketPal/AppDelegate.swift').read_text()
+    if 'GoogleService-Info.plist' in project or '[RNFB]' in project or 'FirebaseApp.configure' in delegate:
+        raise SystemExit('Upstream Firebase native initialization/resources remain.')
+    if not (root / 'ios/Config/Dafeiyu.xcconfig').is_file():
+        raise SystemExit('Independent Xcode configuration is missing.')
+    local_env = 'APP_URL=dafeiyu://app\nENABLE_PALSHUB_INTEGRATION=false\nENABLE_AUTHENTICATION=false\nENABLE_OFFLINE_MODE=true\n'
+    path = root / '.env'
+    if path.exists() and path.read_text() != local_env:
+        raise SystemExit('Refusing to overwrite existing runtime configuration; use a clean build checkout.')
+    if not path.exists():
+        path.write_text(local_env)
+        path.chmod(0o600)
+    print('Independent local configuration ready. No cloud keys, Firebase plist or upstream account used.')
+    raise SystemExit(0)
 paths = ['.env', 'ios/Config/Env.xcconfig', 'ios/GoogleService-Info.plist']
 if args.from_environment:
     supplied = {'.env': os.environ.get('DFY_RUNTIME_ENV', ''),

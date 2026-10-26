@@ -2,6 +2,10 @@
   "format": 1,
   "files": [
     {
+      "path": ".env.example",
+      "sha256": "c84eb13512e0a3448a075e08e040ea511b7177cec9f14efa3234c2cc9005f788"
+    },
+    {
       "path": ".github/actions/dafeiyu-source/action.yml",
       "sha256": "52718da9205413181a24e76c3fdd5aad45bbe10439cc03bf40bb6ee9ee89d078"
     },
@@ -11,7 +15,7 @@
     },
     {
       "path": ".github/workflows/dafeiyu-validate-ios.yml",
-      "sha256": "6665f6a885485e404b1e4c6e33ff5372111bbb0912ac0679b449dbc2d7f8a6d8"
+      "sha256": "336d911fc1fcdc5a8e5c70f282684544b4f3dc0b1e8d892e6d67e091f5812a0e"
     },
     {
       "path": ".gitignore",
@@ -35,11 +39,15 @@
     },
     {
       "path": "android/app/build.gradle",
-      "sha256": "30fcea593451005b2db9206ed99c0390f3b094e626056c4746c0ae9d523ee00e"
+      "sha256": "738ee94abaabbd713913d58702d5583a345f6c82cfabead9c0140e2c3d332218"
     },
     {
       "path": "android/app/src/main/res/values/strings.xml",
       "sha256": "aa92aabf3744e12995271aa7e6e318ea7617bbf9cfcb24e5dd7749955a378aa5"
+    },
+    {
+      "path": "android/build.gradle",
+      "sha256": "11e12420f81486b60d54f8e197ab302aa9e9fd5239e1ee76fba9d030403e4679"
     },
     {
       "path": "app.json",
@@ -52,6 +60,10 @@
     {
       "path": "docs/MEMORY_BRIDGE_PROTOCOL.md",
       "sha256": "a5859c5a6ca824246cad030fb4c87b52d48fdd6f866ed4487778c88062f0c18f"
+    },
+    {
+      "path": "docs/OFFLINE_IOS.md",
+      "sha256": "98635b631da134c7e7861736ff460888ab37cf7985a49e827039078683a54cab"
     },
     {
       "path": "docs/V07_BUILD_INTEGRATION.md",
@@ -80,6 +92,10 @@
     {
       "path": "docs/upstream-files/android/app/src/main/res/values/strings.xml.json",
       "sha256": "9dcba96601a184a8be6e60a5f6d6ae11fb66a56ccd813abc870dba4277aba18d"
+    },
+    {
+      "path": "docs/upstream-files/android/build.gradle.json",
+      "sha256": "6b7f581350e6881bc8d3e90926ac3fc1d50748800d87f9c80e7c89e22d8d28d5"
     },
     {
       "path": "docs/upstream-files/app.json.json",
@@ -122,6 +138,26 @@
       "sha256": "91ffb79d3d986004ee55e5d4fb44d10889395be0f3e246ead65e1e2fe1782896"
     },
     {
+      "path": "docs/upstream-files/src/api/__tests__/benchmark.test.ts.json",
+      "sha256": "550e6e04512a848348965cad152ee41db655d42a432db210630b7a2300cfdbef"
+    },
+    {
+      "path": "docs/upstream-files/src/api/__tests__/feedback.test.ts.json",
+      "sha256": "d23ed183dd901c132832a43dd5cde521c724fcbedea92c64e6c49d472fd2ab71"
+    },
+    {
+      "path": "docs/upstream-files/src/api/benchmark.ts.json",
+      "sha256": "01eadb1abed0a64b8a7385a66505366dd0be720ff8243c3512a26a4616795178"
+    },
+    {
+      "path": "docs/upstream-files/src/api/feedback.ts.json",
+      "sha256": "cee54bb83d6972a1f655edd5b2cda237f6e67256a5e6571e1266f86ae4fd5edb"
+    },
+    {
+      "path": "docs/upstream-files/src/config/urls.ts.json",
+      "sha256": "4a41c7ac95cb41d5f8f71e34d2548c26ce32436f7a0baf50d8cad6d29fcd0b63"
+    },
+    {
       "path": "docs/upstream-files/src/hooks/useChatSession.ts.json",
       "sha256": "d37772ba1bcb0ddbd3013a53130fba185e2b6117c63be83890c8aefb5ea14845"
     },
@@ -134,6 +170,14 @@
       "sha256": "5464a4c2f28445c5abd7c54f16a0a8cb0e38d458082ae219b0af4c657215bcb9"
     },
     {
+      "path": "docs/upstream-files/src/screens/BenchmarkScreen/BenchResultCard/BenchResultCard.tsx.json",
+      "sha256": "0bcf1b9c057fa7a6603dae54572a426776011460a54cb8df2b0ed7494cf7533e"
+    },
+    {
+      "path": "docs/upstream-files/src/screens/BenchmarkScreen/BenchResultCard/__tests__/BenchResultCard.test.tsx.json",
+      "sha256": "0928f86bae98c8fa4372df2086cec88683f76dc924f53dec6f9115c518ede795"
+    },
+    {
       "path": "docs/upstream-files/src/screens/SettingsScreen/SettingsScreen.tsx.json",
       "sha256": "0b60e71f2c91c95a014d18939ee218ded4b1a7ceb0f9d63337eb5ba129d4c858"
     },
@@ -144,6 +188,10 @@
     {
       "path": "docs/upstream-files/src/services/agent/AgentRunner.types.ts.json",
       "sha256": "deedf693e81cfb648e92fda1ebb5274a3c735884a7007bc2550adf8b7e0c5c63"
+    },
+    {
+      "path": "docs/upstream-files/src/services/palshub/AuthService.ts.json",
+      "sha256": "0bdfbc6cba408278d6524058dbb8640435062cd208ca5250a2def352b9079dfe"
     },
     {
       "path": "docs/upstream-files/src/services/talents/TalentRegistry.ts.json",
@@ -182,8 +230,16 @@
       "sha256": "7f80dc5bf3b36187286734c554f362fb78ca3d2a27069d72866bd946ad8a4164"
     },
     {
+      "path": "docs/upstream-files/src/utils/fb.ts.json",
+      "sha256": "7dd997dde30f04675112984673d211b8f59a2fe1be96d715bbfc6614528d1c16"
+    },
+    {
       "path": "docs/upstream-files/tsconfig.json.json",
       "sha256": "c8b5e456e7172c08b979988a095ad339267f8d855e19e75f8afd1dd19fc33f74"
+    },
+    {
+      "path": "docs/upstream-files/yarn.lock.json",
+      "sha256": "265fecade3c6d8c0bb0e6e00b6475be7ff5f2599b3120903a27b251dbf89f67f"
     },
     {
       "path": "docs/upstream-tests/morgan-review-fixes.test.ts.txt",
@@ -214,8 +270,12 @@
       "sha256": "c1b1d0d27ab230d0b7bfc8041956d410947cacd918d7395ec0bc12ea3dd4d503"
     },
     {
+      "path": "ios/Config/Dafeiyu.xcconfig",
+      "sha256": "d258b227e4244fb7501408c56dea5c42baea84f0e22aced83cc93d87235d8b63"
+    },
+    {
       "path": "ios/PocketPal.xcodeproj/project.pbxproj",
-      "sha256": "78a9055b1ad1cf8545cbb29806b312d9006d6bf0bb21cab253c9739e435628bd"
+      "sha256": "c95423d7952843acea20d0ba0d4a56f0393b8eaca0a31e9691f5362a066e8b91"
     },
     {
       "path": "ios/PocketPal.xcodeproj/xcshareddata/xcschemes/PocketPal.xcscheme",
@@ -223,7 +283,7 @@
     },
     {
       "path": "ios/PocketPal/AppDelegate.swift",
-      "sha256": "bf304bdae53041d805885e11bb9d646b8af61297062c58156c54491738690fb9"
+      "sha256": "d986dba318341942e77909938f92d29c4b0d05e60442b4862dadffbad2e5f9f1"
     },
     {
       "path": "ios/PocketPal/AppIntents/OpenPalChatIntent.swift",
@@ -239,7 +299,7 @@
     },
     {
       "path": "ios/PocketPal/Info.plist",
-      "sha256": "8c7657882ea92b434186f2d406c0fee1c7c5ce710e91fd0be1cff7f2786fa1f9"
+      "sha256": "fa38c5cf9d4af5b1d3f47a56c7f0bc55a10104b5bd48d7087a6275d09e899054"
     },
     {
       "path": "ios/PocketPal/PocketPal.entitlements",
@@ -247,7 +307,7 @@
     },
     {
       "path": "ios/Podfile",
-      "sha256": "9b72af94c2869b37dc3b7664f308d29e0ceaa5397838cd437f1299da7adfe9b3"
+      "sha256": "5170b8194bb58db9cc79b342db191d96b4c1b0ee8077cb30ec136101084ff9c5"
     },
     {
       "path": "jest.config.js",
@@ -255,7 +315,7 @@
     },
     {
       "path": "package.json",
-      "sha256": "0ac143584f81e7046540b87cda9fcd4d2a05b35a7d67e6d2fed8c08960b3453c"
+      "sha256": "7647b845cb6b75bc583f74d2720ec6ec4ac21cde4611d338784297fc23e72514"
     },
     {
       "path": "scripts/archive-signed-ios.sh",
@@ -275,11 +335,15 @@
     },
     {
       "path": "scripts/prepare-ios-config.py",
-      "sha256": "d689e482817cd293c6c1f0e24ec4dccba5f6b7a6fa3a8b0e420bdecf77142d69"
+      "sha256": "a4b76c4abf76306c7fc7df9008438274116ac26a45e021a0a6944172f64cdfb9"
     },
     {
       "path": "scripts/prepare-signing.py",
       "sha256": "43c7dfbc09c8555941d13232e47102bfd63bd64dc8e0cf82f0692ba71393c2e8"
+    },
+    {
+      "path": "scripts/test-local-ios.py",
+      "sha256": "254f069e3f7a49684e037333a0d74e0ec5e8aae7466ba603f55dd45a812c7a42"
     },
     {
       "path": "scripts/test-memory-core.cjs",
@@ -295,7 +359,7 @@
     },
     {
       "path": "scripts/update-overlay.py",
-      "sha256": "47598ed4e04781fb5efb80a41c9de31b85023b62d5ef54d861519fe7ac32a113"
+      "sha256": "168008a4e69c3eb43dba0d2930c407082f4ba1c74818e9c72014bed236f09259"
     },
     {
       "path": "scripts/verify-full-source.py",
@@ -304,6 +368,34 @@
     {
       "path": "scripts/verify-integrated-source.py",
       "sha256": "230a9ef54842dd159b95412208e8f88774d8edf2a0b755a446f6ed357d93dc37"
+    },
+    {
+      "path": "src/api/__tests__/benchmark.test.ts",
+      "sha256": "f9c0a32888edb71e0d272ca02709f76e3a9921d48a4b0b78a2c5cc493443d743"
+    },
+    {
+      "path": "src/api/__tests__/feedback.test.ts",
+      "sha256": "1c58a67dae10a44bd2a81bfc60e4216be403b9619f921aa0bfd05b7d32015671"
+    },
+    {
+      "path": "src/api/__tests__/offlineCloud.test.ts",
+      "sha256": "097254d38003ff98aac27f8bc66dde896d6b5b270a83d3f487a5c12a321da490"
+    },
+    {
+      "path": "src/api/benchmark.ts",
+      "sha256": "4548f5bd3f6c2f9734b3a4fe2d4be52ef2fca041f0824fab1511ba4839d7446c"
+    },
+    {
+      "path": "src/api/feedback.ts",
+      "sha256": "ee49806f4b5ad77cabcdbaa2dcf46541cb5e271bcad9d84ddeaf15cb72d09459"
+    },
+    {
+      "path": "src/config/cloud.ts",
+      "sha256": "477ddfef4eae5b3b3f7c72077aff3502470a204237264ce25829d93739ebf5e5"
+    },
+    {
+      "path": "src/config/urls.ts",
+      "sha256": "879b1d58f873f5e9c200b234354ad1c89d16f8c2cbcb41af993166c99d0683ae"
     },
     {
       "path": "src/hooks/useChatSession.ts",
@@ -316,6 +408,14 @@
     {
       "path": "src/locales/types.ts",
       "sha256": "bd42e61a0c8805a38e1382a6b34fff3c083bd953debee1d76cc5722f3b881892"
+    },
+    {
+      "path": "src/screens/BenchmarkScreen/BenchResultCard/BenchResultCard.tsx",
+      "sha256": "69ca044a7b5ee606b8e3e6c70e12d501985853a6e42fef4f266c655609216960"
+    },
+    {
+      "path": "src/screens/BenchmarkScreen/BenchResultCard/__tests__/BenchResultCard.test.tsx",
+      "sha256": "911c4c087295e0dd8335b6d6f3a3981b0aea4164e43676100ddcc334191b2311"
     },
     {
       "path": "src/screens/SettingsScreen/MemoryBridgeCard.tsx",
@@ -348,6 +448,14 @@
     {
       "path": "src/services/memory/bridgeHost.ts",
       "sha256": "d828e11a9f31bd42329e4def58c2da3bda5f62883df3d449ba78cfb53d56bfcc"
+    },
+    {
+      "path": "src/services/palshub/AuthService.ts",
+      "sha256": "8adfb34ea38f75d240a2f5e4f2fb900a55b1d052d8f7badd6a08d2f65f59aa30"
+    },
+    {
+      "path": "src/services/palshub/__tests__/unconfigured.test.ts",
+      "sha256": "2acf3f9668b1378ce2e0ee5760f4bf33a788a85ff7eb478cad5da2565c3a9e73"
     },
     {
       "path": "src/services/talents/MemoryBridgeEngine.ts",
@@ -394,16 +502,24 @@
       "sha256": "24cfccb527b0efef4b925b510d2983b881a28ab7acf7145f6f59193c8dbe7472"
     },
     {
+      "path": "src/utils/fb.ts",
+      "sha256": "247ba508faf929cf239a3f70c4add1710648f0519ed3259f75793d333bea1c0b"
+    },
+    {
       "path": "tsconfig.json",
       "sha256": "03c2c9cec6999d2895f4c7dabb85e9c9fb145c6a615e39bf76f1c484c7d97dae"
     },
     {
       "path": "upstream.snapshot.json",
-      "sha256": "317f44faf70ff68c81e6bf0cf913d9c36da5611cfe509cde123b0f99e41a7527"
+      "sha256": "dc629a3d7e2f627b7d4921ac380c29646a0be0f4fe3e19e74405e31403c0f965"
     },
     {
       "path": "upstream.tree.json",
       "sha256": "9b7562bf4f5cb967d4f7a71994e04b0f10c0f5efb19cd33ac2e4f0d095ded5c0"
+    },
+    {
+      "path": "yarn.lock",
+      "sha256": "87f672650c743d1825a70471fd8f17446a905997a0f39f9a2970909475741ddd"
     }
   ]
 }

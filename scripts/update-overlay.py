@@ -25,7 +25,7 @@ def main():
         if Path(relative).is_absolute() or '..' in parts or any(p in {'.git', 'node_modules', 'Pods', 'build', 'coverage', '__pycache__'} for p in parts):
             raise SystemExit('Unsafe/generated overlay path: ' + relative)
         p = root / relative
-        if p.is_symlink() or p.suffix.lower() in {'.p12', '.p8', '.key', '.mobileprovision', '.ipa', '.sqlite3'} or p.name.startswith('.env'):
+        if p.is_symlink() or p.suffix.lower() in {'.p12', '.p8', '.key', '.mobileprovision', '.ipa', '.sqlite3'} or (p.name.startswith('.env') and relative not in {'.env.example', 'docs/upstream-files/.env.example.json'}):
             raise SystemExit('Private/generated material cannot enter overlay: ' + relative)
         if not p.is_file():
             raise SystemExit('Missing overlay file: ' + relative)

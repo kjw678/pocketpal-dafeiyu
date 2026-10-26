@@ -9,9 +9,8 @@ export const APPLE_EULA_URL =
 export const APPLE_MEDIA_TERMS_URL =
   'https://www.apple.com/legal/internet-services/itunes/us/terms.html';
 
-// Fallback for Firebase Functions URL if not configured
-const FIREBASE_BASE =
-  FIREBASE_FUNCTIONS_URL || 'https://placeholder-firebase-functions.com';
+// No fallback service or fabricated endpoint for unconfigured cloud callers
+const FIREBASE_BASE = FIREBASE_FUNCTIONS_URL || '';
 
 export const urls = {
   // API URLs

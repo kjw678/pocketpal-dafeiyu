@@ -1,3 +1,4 @@
+import {assertOfficialCloudAvailable} from '../config/cloud';
 import axios from 'axios';
 import {Platform} from 'react-native';
 import {urls} from '../config';
@@ -23,6 +24,7 @@ export async function submitBenchmark(
   deviceInfo: DeviceInfo,
   benchmarkResult: BenchmarkResult,
 ): Promise<{message: string; id: number}> {
+  assertOfficialCloudAvailable();
   try {
     // Check network connectivity first
     const isConnected = await checkConnectivity();

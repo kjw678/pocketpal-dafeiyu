@@ -1,3 +1,5 @@
+jest.mock('../../../../config/cloud', () => ({officialCloudEnabled: true}));
+
 import React from 'react';
 import {Linking, Alert} from 'react-native';
 import {fireEvent, render, act, waitFor} from '../../../../../jest/test-utils';
@@ -71,6 +73,27 @@ describe('BenchResultCard', () => {
 
   const mockOnDelete = jest.fn();
   const mockOnShare = jest.fn();
+
+  it('retains local results and deletion without an official cloud submit button', () => {
+    const policy = jest.requireMock('../../../../config/cloud');
+    policy.officialCloudEnabled = false;
+    try {
+      const {queryByTestId, getByText} = render(
+        <BenchResultCard
+          result={mockResult}
+          onDelete={jest.fn()}
+          onShare={jest.fn()}
+        />,
+      );
+      expect(queryByTestId('submit-benchmark-button')).toBeNull();
+      expect(queryByTestId('delete-result-button')).not.toBeNull();
+      expect(
+        getByText('Local benchmark results stay on this device.'),
+      ).toBeTruthy();
+    } finally {
+      policy.officialCloudEnabled = true;
+    }
+  });
 
   beforeEach(() => {
     jest.clearAllMocks();

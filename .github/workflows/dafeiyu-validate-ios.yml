@@ -10,6 +10,10 @@ on:
         default: false
   workflow_dispatch:
     inputs:
+      refresh_pods:
+        description: Regenerate native dependency lock on macOS, then verify deployment installation
+        type: boolean
+        default: false
       build_ios:
         description: Attempt unsigned device archive after full project checks
         type: boolean
@@ -41,6 +45,7 @@ jobs:
         run: |
           python3 scripts/test-source-integrity.py
           python3 scripts/test-offline-preparation.py
+          python3 scripts/test-local-ios.py
       - uses: actions/setup-node@v4
         with:
           node-version: '22.21.0'
@@ -131,20 +136,18 @@ jobs:
           set -o pipefail
           xcodebuild -version | tee "$RUNNER_TEMP/xcode-version.log"
           xcrun --sdk iphoneos --show-sdk-version | tee -a "$RUNNER_TEMP/xcode-version.log"
-      - name: Validate real service configuration; never generate placeholders
+      - name: Require Xcode 26.6
+        run: xcodebuild -version | grep -Fx 'Xcode 26.6'
+      - name: Prepare independent local configuration (no upstream cloud credentials)
         working-directory: upstream
-        env:
-          DFY_RUNTIME_ENV: ${{ secrets.DFY_RUNTIME_ENV }}
-          DFY_IOS_XCCONFIG: ${{ secrets.DFY_IOS_XCCONFIG }}
-          DFY_FIREBASE_PLIST: ${{ secrets.DFY_FIREBASE_PLIST }}
-        run: python3 scripts/prepare-ios-config.py --from-environment
+        run: python3 scripts/prepare-ios-config.py --local
       - uses: actions/setup-node@v4
         with:
           node-version: '22.21.0'
       - run: npm install --global yarn@1.22.22
       - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.3'
+          ruby-version: '3.2.3'
           working-directory: upstream
           bundler-cache: true
       - name: Install frozen JS dependencies on macOS
@@ -154,13 +157,30 @@ jobs:
           set -o pipefail
           yarn install --frozen-lockfile --non-interactive 2>&1 | tee "$RUNNER_TEMP/ios-yarn-install.log"
           git diff --exit-code -- yarn.lock
+      - name: Regenerate native lock on macOS when explicitly requested
+        if: ${{ inputs.refresh_pods == true }}
+        working-directory: upstream/ios
+        shell: bash
+        run: |
+          set -euo pipefail
+          bundle exec pod install 2>&1 | tee "$RUNNER_TEMP/pod-refresh.log"
+          cp Podfile.lock "$RUNNER_TEMP/Podfile.lock"
+          python3 - <<'PYLOCK'
+          import base64, gzip
+          from pathlib import Path
+          print('POD_LOCK_GZIP_BASE64=' + base64.b64encode(gzip.compress(Path('Podfile.lock').read_bytes(), mtime=0)).decode())
+          PYLOCK
       - name: Install locked native dependencies
         working-directory: upstream/ios
         shell: bash
         run: |
           set -o pipefail
           bundle exec pod install --deployment 2>&1 | tee "$RUNNER_TEMP/pod-install.log"
-          git diff --exit-code -- Podfile.lock
+          # A refresh run exports its real generated lock for the follow-up commit.
+          # Normal builds must use exactly the reviewed committed lock.
+          if [ "${{ inputs.refresh_pods }}" != 'true' ]; then
+            git diff --exit-code -- Podfile.lock
+          fi
       - name: Build unsigned device archive (NOT an installable IPA)
         working-directory: upstream
         shell: bash
@@ -194,6 +214,7 @@ jobs:
           name: dafeiyu-native-build-logs
           path: |
             ${{ runner.temp }}/*.log
+            ${{ runner.temp }}/Podfile.lock
             ${{ runner.temp }}/Dafeiyu-unsigned.xcresult
           if-no-files-found: ignore
           retention-days: 7

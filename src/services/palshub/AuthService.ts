@@ -231,6 +231,9 @@ class AuthService {
   }
 
   private configureGoogleSignIn() {
+    if (!GOOGLE_WEB_CLIENT_ID || !GOOGLE_IOS_CLIENT_ID) {
+      return;
+    }
     try {
       GoogleSignin.configure({
         webClientId: GOOGLE_WEB_CLIENT_ID,

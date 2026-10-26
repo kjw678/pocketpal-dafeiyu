@@ -1,3 +1,7 @@
+jest.mock('../../config/cloud', () => ({
+  assertOfficialCloudAvailable: jest.fn(),
+}));
+
 import axios from 'axios';
 import {Platform} from 'react-native';
 import DeviceInfo from 'react-native-device-info';

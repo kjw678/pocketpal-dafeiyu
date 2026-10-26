@@ -132,6 +132,54 @@
     {
       "path": "src/store/__tests__/ModelStore.routerReadiness.test.ts",
       "sha": "8fa980b34249586c4e9e5f894aa10c3c386cd009"
+    },
+    {
+      "path": ".env.example",
+      "sha": "8e1f4453ad44e77e47ac3d196788bdc3c4a4e343"
+    },
+    {
+      "path": "android/build.gradle",
+      "sha": "2ab429f166c7b98fa1adda4b8fc50b0b9be098fd"
+    },
+    {
+      "path": "src/api/__tests__/benchmark.test.ts",
+      "sha": "9b9757ee52ff5f93013a27f29441e67fa45e8945"
+    },
+    {
+      "path": "src/api/__tests__/feedback.test.ts",
+      "sha": "ace95005744992fe384dcfd4f12ef7bb47f84c7e"
+    },
+    {
+      "path": "src/api/benchmark.ts",
+      "sha": "9bcc8c14394c56b063f358c4371abea9c3bb5b7c"
+    },
+    {
+      "path": "src/api/feedback.ts",
+      "sha": "fcb4e8599095466f1599e31485a56e4b97593f6f"
+    },
+    {
+      "path": "src/config/urls.ts",
+      "sha": "1d40a35996dc0db1ec1eb328f4b2e57ccf5a2d08"
+    },
+    {
+      "path": "src/screens/BenchmarkScreen/BenchResultCard/BenchResultCard.tsx",
+      "sha": "255edae2cbfe034a103fb658598976eee87ece85"
+    },
+    {
+      "path": "src/screens/BenchmarkScreen/BenchResultCard/__tests__/BenchResultCard.test.tsx",
+      "sha": "4221bb958d6bab53882c0173f91b35b88c6b0ae7"
+    },
+    {
+      "path": "src/services/palshub/AuthService.ts",
+      "sha": "2fbfc83b9bee8da92c024ec78311617d9aec590a"
+    },
+    {
+      "path": "src/utils/fb.ts",
+      "sha": "6f38f8630280de9bea413e903c2c3366e77326e9"
+    },
+    {
+      "path": "yarn.lock",
+      "sha": "444db185f1437188e2481a91757380436aaff18d"
     }
   ],
   "local_snapshot_commit": "2bce42d865e3300dbce874743c8496c8a6ea2eb5"
