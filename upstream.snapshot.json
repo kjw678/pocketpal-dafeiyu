@@ -184,6 +184,10 @@
     {
       "path": "src/screens/BenchmarkScreen/__tests__/BenchmarkScreen.test.tsx",
       "sha": "503375d693f31a519cbb31f36bb2050b35693538"
+    },
+    {
+      "path": "ios/Podfile.lock",
+      "sha": "9fbb34be5d5c5434a005343c1302545efd10900c"
     }
   ],
   "local_snapshot_commit": "2bce42d865e3300dbce874743c8496c8a6ea2eb5"

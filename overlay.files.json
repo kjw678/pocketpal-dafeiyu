@@ -134,6 +134,10 @@
       "sha256": "aba771916e0304a9133375bd0bbe7a95510120494afb5f650cda7c5d10a548dd"
     },
     {
+      "path": "docs/upstream-files/ios/Podfile.lock.json",
+      "sha256": "eb950ef2879f8b8df726510056232095cfd2d3a58c27309a5bb8423809dfbc7a"
+    },
+    {
       "path": "docs/upstream-files/jest.config.js.json",
       "sha256": "050d186607e08280303a119b238a99b0ee029c54d87e59bfb77523729c5dbf49"
     },
@@ -318,6 +322,10 @@
       "sha256": "5170b8194bb58db9cc79b342db191d96b4c1b0ee8077cb30ec136101084ff9c5"
     },
     {
+      "path": "ios/Podfile.lock",
+      "sha256": "b876223bd9bdae31be513ff4154de77c31b99e34eb62109830e0c78ba0b38d17"
+    },
+    {
       "path": "jest.config.js",
       "sha256": "c0a0876f435d0feebd7eae513df5fbb36630218ff8bbdb59016aa945e5ec0716"
     },
@@ -351,7 +359,7 @@
     },
     {
       "path": "scripts/test-local-ios.py",
-      "sha256": "254f069e3f7a49684e037333a0d74e0ec5e8aae7466ba603f55dd45a812c7a42"
+      "sha256": "77e8bc31c5b419972aab0f356db7c54dea1a8bd2d461d646d508313de64ef757"
     },
     {
       "path": "scripts/test-memory-core.cjs",
@@ -523,7 +531,7 @@
     },
     {
       "path": "upstream.snapshot.json",
-      "sha256": "ef94cc2631f3170b2c6c0a0a18875bf01332a9dc596a8a5956946660b938fab3"
+      "sha256": "897cdf91095e6949351e0c2cba02d372e2cdef3c6cededea2e8cf9e1f574b253"
     },
     {
       "path": "upstream.tree.json",
