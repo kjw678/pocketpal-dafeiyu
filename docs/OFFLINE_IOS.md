@@ -18,7 +18,9 @@ No Firebase project, Firebase plist, App Check token, or upstream account is use
   not Firebase initialization and does not require a Firebase project.
 - PalsHub/Supabase interfaces remain. Without explicit URL/key configuration no
   Supabase client or auth listener is created, and PalsHub API calls fail before
-  sending requests. There is no fallback PalsHub account or endpoint.
+  sending requests. Purchase/entitlement API requests also reject before fetch
+  when the backend is unset. StoreKit and its future integration remain.
+  There is no fallback PalsHub account or endpoint.
 - User-configured remote inference, Hugging Face downloads, public device rules,
   web-reading tools, existing time tools, Qwen inference, V0.7 memory protocol,
   native HTTPS memory transport, Keychain and Shortcuts are retained. This mode

@@ -45,6 +45,10 @@ const request = async (
   path: string,
   {method, body, auth}: {method: 'GET' | 'POST'; body?: unknown; auth: boolean},
 ): Promise<unknown> => {
+  const apiBase = getApiBase();
+  if (!apiBase || apiBase === 'undefined') {
+    throw new Error('PalsHub purchase service is not configured.');
+  }
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
   try {
@@ -60,7 +64,7 @@ const request = async (
         headers.Authorization = Authorization;
       }
     }
-    const response = await fetch(`${getApiBase()}${path}`, {
+    const response = await fetch(`${apiBase}${path}`, {
       method,
       headers,
       body: body === undefined ? undefined : JSON.stringify(body),

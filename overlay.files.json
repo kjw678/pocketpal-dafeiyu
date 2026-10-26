@@ -63,7 +63,7 @@
     },
     {
       "path": "docs/OFFLINE_IOS.md",
-      "sha256": "98635b631da134c7e7861736ff460888ab37cf7985a49e827039078683a54cab"
+      "sha256": "d21e107b98cc207c828ac7cb2a8d1e1e4df730db7121bd3185c1d33a4554514e"
     },
     {
       "path": "docs/V07_BUILD_INTEGRATION.md",
@@ -200,6 +200,10 @@
     {
       "path": "docs/upstream-files/src/services/agent/AgentRunner.types.ts.json",
       "sha256": "deedf693e81cfb648e92fda1ebb5274a3c735884a7007bc2550adf8b7e0c5c63"
+    },
+    {
+      "path": "docs/upstream-files/src/services/iap/iapApi.ts.json",
+      "sha256": "70565ef44312954c565f5f41c8c8c2de612c3256b466155e3718a934c5737a22"
     },
     {
       "path": "docs/upstream-files/src/services/palshub/AuthService.ts.json",
@@ -454,6 +458,10 @@
       "sha256": "bcc60bf39eb4885da909d60b754e51a38550d836b0a2408d8ad61179aed61778"
     },
     {
+      "path": "src/services/iap/iapApi.ts",
+      "sha256": "4f2664253a030476277245a504653a624516a282e62d6f8b920240eb6b5f4c82"
+    },
+    {
       "path": "src/services/memory/MemoryBridgeCore.d.ts",
       "sha256": "5ce385584088791cf519d2c24e7db64190bd8d56e23bbdbb72dd495854916941"
     },
@@ -475,7 +483,7 @@
     },
     {
       "path": "src/services/palshub/__tests__/unconfigured.test.ts",
-      "sha256": "2acf3f9668b1378ce2e0ee5760f4bf33a788a85ff7eb478cad5da2565c3a9e73"
+      "sha256": "6e464f6ec2ee30a945236a36721b85102a12f710f887b52110de3615fab97488"
     },
     {
       "path": "src/services/talents/MemoryBridgeEngine.ts",
@@ -531,7 +539,7 @@
     },
     {
       "path": "upstream.snapshot.json",
-      "sha256": "897cdf91095e6949351e0c2cba02d372e2cdef3c6cededea2e8cf9e1f574b253"
+      "sha256": "daf3eea893c69add06cd0c22ee87db45b9f89cbf942cbab40d18cc635031c82f"
     },
     {
       "path": "upstream.tree.json",
