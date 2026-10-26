@@ -186,7 +186,9 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          xcodebuild archive \
+          # Keep complete compiler output as an artifact, with bounded console
+          # diagnostics so failures can also be retrieved through the Jobs API.
+          if xcodebuild archive \
             -jobs 2 \
             -workspace ios/PocketPal.xcworkspace \
             -scheme PocketPal -configuration Release \
@@ -194,7 +196,14 @@ jobs:
             -archivePath "$RUNNER_TEMP/Dafeiyu-unsigned.xcarchive" \
             -resultBundlePath "$RUNNER_TEMP/Dafeiyu-unsigned.xcresult" \
             CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY='' \
-            2>&1 | tee "$RUNNER_TEMP/dafeiyu-unsigned-build.log"
+            > "$RUNNER_TEMP/dafeiyu-unsigned-build.log" 2>&1; then
+            tail -n 20 "$RUNNER_TEMP/dafeiyu-unsigned-build.log"
+          else
+            status=$?
+            grep -n -B 5 -A 8 -E 'error:|fatal error:|ARCHIVE FAILED' "$RUNNER_TEMP/dafeiyu-unsigned-build.log" | tail -n 200 || true
+            tail -n 60 "$RUNNER_TEMP/dafeiyu-unsigned-build.log"
+            exit "$status"
+          fi
           test -d "$RUNNER_TEMP/Dafeiyu-unsigned.xcarchive/Products/Applications/PocketPal.app"
           printf '%s\n' 'UNSIGNED ARCHIVE. Cannot install on iPhone. No IPA exported.' > "$RUNNER_TEMP/UNSIGNED-README.txt"
           ditto -c -k --keepParent "$RUNNER_TEMP/Dafeiyu-unsigned.xcarchive" "$RUNNER_TEMP/Dafeiyu-unsigned.xcarchive.zip"

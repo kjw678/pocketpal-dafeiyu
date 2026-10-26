@@ -15,7 +15,7 @@
     },
     {
       "path": ".github/workflows/dafeiyu-validate-ios.yml",
-      "sha256": "336d911fc1fcdc5a8e5c70f282684544b4f3dc0b1e8d892e6d67e091f5812a0e"
+      "sha256": "19cb40d0ab5dc9f79d20305fc5004aea57028177dda76fc07a160c1a309a946a"
     },
     {
       "path": ".gitignore",
