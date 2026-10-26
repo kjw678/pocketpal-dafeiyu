@@ -71,7 +71,7 @@
     },
     {
       "path": "docs/WINDOWS_SIDELOADLY_ZH.md",
-      "sha256": "1fc098f511928e6cff8c9c95fee3c37eea18414975ffb4902740c22b2aac3f6c"
+      "sha256": "8e1e075a5dd46d64647353bc2d45f5f9b6e1a08f4c41a90f92c05d87c4b57b1f"
     },
     {
       "path": "docs/upstream-files/.env.example.json",
@@ -359,7 +359,7 @@
     },
     {
       "path": "scripts/package-existing-ipa.py",
-      "sha256": "3ae0a5011942f3472d10e8fecc5dafa3383c6a804b719c52bbf82bf319eb3e8b"
+      "sha256": "832844811349ca933f440dffbaf3198915a9e2fdcbbf9e3ba621ecf4a1c57fe1"
     },
     {
       "path": "scripts/prepare-ios-config.py",

@@ -68,6 +68,18 @@ def inspect_code(path, app):
     architecture = command('lipo', '-archs', str(executable))
     loads = command('otool', '-l', str(executable))
     cryptids = [int(n) for n in re.findall(r'\bcryptid\s+(\d+)', loads['stdout'])]
+    binary_targets = []
+    for block in re.split(r'Load command \d+', loads['stdout']):
+        if 'cmd LC_BUILD_VERSION' in block:
+            platform = re.search(r'\bplatform\s+(\S+)', block)
+            minos = re.search(r'\bminos\s+(\S+)', block)
+            sdk = re.search(r'\bsdk\s+(\S+)', block)
+            binary_targets.append({'platform': platform.group(1) if platform else None,
+                                   'min_os': minos.group(1) if minos else None,
+                                   'sdk': sdk.group(1) if sdk else None})
+        elif 'cmd LC_VERSION_MIN_IPHONEOS' in block:
+            version = re.search(r'\bversion\s+(\S+)', block)
+            binary_targets.append({'platform': 'IOS', 'min_os': version.group(1) if version else None})
     if any(cryptids):
         raise ValueError('Encrypted executable is not suitable for re-signing: ' + str(executable))
     return {
@@ -80,6 +92,7 @@ def inspect_code(path, app):
         'codesign_verify': command('codesign', '--verify', '--strict', str(path)),
         'embedded_entitlements': embedded_entitlements, 'entitlements_command': ent,
         'architectures': architecture, 'encryption_cryptids': cryptids,
+        'binary_targets': binary_targets,
         'load_commands': loads,
         'linked_libraries': command('otool', '-L', str(executable)),
         'binary_sha256': sha(executable) if executable.is_file() else None,
@@ -127,6 +140,19 @@ def main():
                 ((p.is_dir() and p.suffix in ('.framework', '.appex', '.app')) or
                  (p.is_file() and p.suffix == '.dylib'))]
         report['embedded_code'] = [inspect_code(p, app) for p in sorted(code)]
+        for c in [report['main_app'], *report['embedded_code']]:
+            if c['architectures']['exit_code'] or 'arm64' not in c['architectures']['stdout'].split():
+                raise ValueError('Cannot confirm arm64 embedded code: ' + c['path'])
+            if c['signature_state'] == 'inspection-error':
+                raise ValueError('Cannot inspect code signature: ' + c['path'])
+            if not c['binary_targets'] or any(t['platform'] not in ('2', 'IOS', 'iOS') for t in c['binary_targets']):
+                raise ValueError('Cannot confirm an iOS device binary: ' + c['path'])
+        minimum_versions = [t['min_os'] for c in [report['main_app'], *report['embedded_code']]
+                            for t in c['binary_targets'] if t.get('min_os')]
+        minimum_versions += [c['minimum_os'] for c in [report['main_app'], *report['embedded_code']]
+                             if c.get('minimum_os')]
+        report['minimum_os_from_all_bundles_and_binaries'] = max(
+            minimum_versions, key=lambda v: tuple(int(n) for n in v.split('.')))
         report['extensions'] = [p.relative_to(app).as_posix() for p in sorted(app.rglob('*.appex'))]
         report['embedded_provisioning_profiles'] = [p.relative_to(app).as_posix() for p in app.rglob('embedded.mobileprovision')]
         if report['embedded_provisioning_profiles']:
@@ -157,10 +183,13 @@ def main():
     (args.output / 'source-requested.entitlements').write_bytes(args.entitlements.read_bytes())
     (args.output / 'SHA256SUMS.txt').write_text(report['ipa_sha256'] + '  Dafeiyu-V0.7-unsigned.ipa\n')
     print(json.dumps({k: report[k] for k in ['payload_layout', 'extensions', 'bundle_file_count',
-                      'ipa_sha256', 'ipa_size_bytes', 'copy_and_ipa_roundtrip_identical']}, indent=2))
+                      'ipa_sha256', 'ipa_size_bytes', 'copy_and_ipa_roundtrip_identical',
+                      'minimum_os_from_all_bundles_and_binaries']}, indent=2))
     print('MAIN_APP=' + json.dumps({k: report['main_app'][k] for k in
-          ['bundle_id', 'minimum_os', 'signature_state', 'embedded_entitlements', 'architectures']}, default=str))
-    print('EMBEDDED_CODE=' + json.dumps([{k: c[k] for k in ['path', 'bundle_id', 'signature_state']}
+          ['bundle_id', 'minimum_os', 'signature_state', 'embedded_entitlements', 'architectures',
+           'binary_targets', 'encryption_cryptids']}, default=str))
+    print('EMBEDDED_CODE=' + json.dumps([{k: c[k] for k in ['path', 'bundle_id', 'minimum_os', 'signature_state', 'embedded_entitlements',
+            'architectures', 'binary_targets', 'encryption_cryptids']}
                                       for c in report['embedded_code']]))
 
 

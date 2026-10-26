@@ -47,7 +47,7 @@ GitHub Actions Run `40282200498` 的真实 unsigned xcarchive。
 2. 仅从 https://sideloadly.io/ 下载当前 Windows 版。按该站当前说明安装 Apple
    官方网页版 iTunes/iCloud 依赖（不是 Microsoft Store 版）。
 3. 通过 USB 连接 iPhone，解锁并选择“信任此电脑”，确认 iTunes 和 Sideloadly
-   都识别到设备。设备 iOS 必须不低于 `inspection.json` 的 `minimum_os`。
+   都识别到设备。设备 iOS 必须不低于 `inspection.json` 的 `minimum_os_from_all_bundles_and_binaries`（综合主 App、Frameworks 与 Mach-O）。
 4. 将 IPA 拖入 Sideloadly，选择设备，输入**自己的** Apple ID，使用其 Apple ID
    重新签名/安装流程。密码和双重认证只在本机工具及 Apple 流程中输入，
    不要发给聊天、写进 GitHub Secrets 或传给他人。
