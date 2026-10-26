@@ -180,6 +180,10 @@
     {
       "path": "yarn.lock",
       "sha": "444db185f1437188e2481a91757380436aaff18d"
+    },
+    {
+      "path": "src/screens/BenchmarkScreen/__tests__/BenchmarkScreen.test.tsx",
+      "sha": "503375d693f31a519cbb31f36bb2050b35693538"
     }
   ],
   "local_snapshot_commit": "2bce42d865e3300dbce874743c8496c8a6ea2eb5"

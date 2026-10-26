@@ -182,6 +182,10 @@
       "sha256": "0928f86bae98c8fa4372df2086cec88683f76dc924f53dec6f9115c518ede795"
     },
     {
+      "path": "docs/upstream-files/src/screens/BenchmarkScreen/__tests__/BenchmarkScreen.test.tsx.json",
+      "sha256": "3fc69b59e17f7082e7c54553cc43b37fb36a0cd9033f3b530b3b8770e370d434"
+    },
+    {
       "path": "docs/upstream-files/src/screens/SettingsScreen/SettingsScreen.tsx.json",
       "sha256": "0b60e71f2c91c95a014d18939ee218ded4b1a7ceb0f9d63337eb5ba129d4c858"
     },
@@ -422,6 +426,10 @@
       "sha256": "911c4c087295e0dd8335b6d6f3a3981b0aea4164e43676100ddcc334191b2311"
     },
     {
+      "path": "src/screens/BenchmarkScreen/__tests__/BenchmarkScreen.test.tsx",
+      "sha256": "05b5fadfef180c03a26bea541474ad37551df3aca3ba5bc36fcf30664353736e"
+    },
+    {
       "path": "src/screens/SettingsScreen/MemoryBridgeCard.tsx",
       "sha256": "decf126509c4cd60d0ac99560ddd238a7158bcf8149f0e3d53cf8c7b5d50a3f2"
     },
@@ -515,7 +523,7 @@
     },
     {
       "path": "upstream.snapshot.json",
-      "sha256": "dc629a3d7e2f627b7d4921ac380c29646a0be0f4fe3e19e74405e31403c0f965"
+      "sha256": "ef94cc2631f3170b2c6c0a0a18875bf01332a9dc596a8a5956946660b938fab3"
     },
     {
       "path": "upstream.tree.json",

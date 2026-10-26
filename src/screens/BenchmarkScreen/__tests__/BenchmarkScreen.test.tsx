@@ -1,3 +1,7 @@
+// Legacy sharing fixtures exercise retained upstream UI behavior. Local-mode
+// suppression is covered by BenchResultCard and offlineCloud regressions.
+jest.mock('../../../config/cloud', () => ({officialCloudEnabled: true}));
+
 import React from 'react';
 
 import {cloneDeep} from 'lodash';
