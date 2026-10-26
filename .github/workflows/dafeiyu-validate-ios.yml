@@ -10,6 +10,10 @@ on:
         default: false
   workflow_dispatch:
     inputs:
+      package_existing_archive:
+        description: Package only the verified V0.7 archive from Run 40282200498; no rebuild or signing
+        type: boolean
+        default: false
       refresh_pods:
         description: Regenerate native dependency lock on macOS, then verify deployment installation
         type: boolean
@@ -21,6 +25,7 @@ on:
 
 permissions:
   contents: read
+  actions: read
 
 concurrency:
   group: dafeiyu-${{ github.ref }}
@@ -28,6 +33,7 @@ concurrency:
 
 jobs:
   verify:
+    if: ${{ inputs.package_existing_archive != true }}
     runs-on: ubuntu-24.04
     timeout-minutes: 45
     env:
@@ -117,7 +123,7 @@ jobs:
           retention-days: 7
 
   unsigned-ios:
-    if: ${{ github.event_name == 'push' || inputs.build_ios }}
+    if: ${{ inputs.package_existing_archive != true && (github.event_name == 'push' || inputs.build_ios) }}
     needs: verify
     runs-on: macos-26
     timeout-minutes: 90
@@ -227,3 +233,55 @@ jobs:
             ${{ runner.temp }}/Dafeiyu-unsigned.xcresult
           if-no-files-found: ignore
           retention-days: 7
+
+  package-existing-archive:
+    if: ${{ inputs.package_existing_archive == true }}
+    runs-on: macos-26
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: packager
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          ref: 309495851662142935f25b34a9eab8d0c96d25fe
+          path: source
+          persist-credentials: false
+      - name: Verify source run identity and actual archive artifact
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const {owner, repo} = context.repo;
+            const run = (await github.rest.actions.getWorkflowRun({owner, repo, run_id: 40282200498})).data;
+            if (run.conclusion !== 'success' || run.head_sha !== '309495851662142935f25b34a9eab8d0c96d25fe') {
+              throw new Error('Source run is not the verified successful V0.7 build');
+            }
+            const artifacts = (await github.rest.actions.listWorkflowRunArtifacts({owner, repo, run_id: 40282200498})).data.artifacts;
+            const archive = artifacts.find(a => a.id === 12633329365 && a.name === 'dafeiyu-UNSIGNED-device-archive-NOT-INSTALLABLE');
+            if (!archive || archive.expired) throw new Error('Verified source archive is missing or expired');
+            core.info(JSON.stringify({source_run: run.id, source_sha: run.head_sha, artifact_id: archive.id, digest: archive.digest}));
+      - uses: actions/download-artifact@v4
+        with:
+          name: dafeiyu-UNSIGNED-device-archive-NOT-INSTALLABLE
+          run-id: 40282200498
+          github-token: ${{ github.token }}
+          path: archive-input
+      - name: Inspect and package complete app without signing or changing it
+        shell: bash
+        run: |
+          set -euo pipefail
+          sw_vers
+          xcodebuild -version
+          python3 packager/scripts/package-existing-ipa.py \
+            --archive-zip archive-input/Dafeiyu-unsigned.xcarchive.zip \
+            --entitlements source/ios/PocketPal/PocketPal.entitlements \
+            --output "$RUNNER_TEMP/unsigned-ipa"
+          cp packager/docs/WINDOWS_SIDELOADLY_ZH.md "$RUNNER_TEMP/unsigned-ipa/"
+      - name: Upload unsigned IPA and inspection records (NOT directly installable)
+        uses: actions/upload-artifact@v4
+        with:
+          name: dafeiyu-v07-UNSIGNED-IPA-REQUIRES-RESIGNING
+          path: ${{ runner.temp }}/unsigned-ipa/
+          if-no-files-found: error
+          retention-days: 14

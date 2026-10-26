@@ -15,7 +15,7 @@
     },
     {
       "path": ".github/workflows/dafeiyu-validate-ios.yml",
-      "sha256": "19cb40d0ab5dc9f79d20305fc5004aea57028177dda76fc07a160c1a309a946a"
+      "sha256": "0f83bc83e7915a43f0f19110e2eefdad39e81a4d0c98611383b813f031897e96"
     },
     {
       "path": ".gitignore",
@@ -68,6 +68,10 @@
     {
       "path": "docs/V07_BUILD_INTEGRATION.md",
       "sha256": "fcb739cf7754da32debf6b4b788406bfcdfa0f8c3e0ef3f71e70844859bcfc32"
+    },
+    {
+      "path": "docs/WINDOWS_SIDELOADLY_ZH.md",
+      "sha256": "1fc098f511928e6cff8c9c95fee3c37eea18414975ffb4902740c22b2aac3f6c"
     },
     {
       "path": "docs/upstream-files/.env.example.json",
@@ -352,6 +356,10 @@
     {
       "path": "scripts/materialize-upstream.py",
       "sha256": "35ce48e0bce1ce4edc0d6ceaf6b9598b4f789420d9427537da69e7f8bfd200d6"
+    },
+    {
+      "path": "scripts/package-existing-ipa.py",
+      "sha256": "3ae0a5011942f3472d10e8fecc5dafa3383c6a804b719c52bbf82bf319eb3e8b"
     },
     {
       "path": "scripts/prepare-ios-config.py",
