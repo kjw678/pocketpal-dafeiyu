@@ -87,7 +87,7 @@ android {
 
     namespace "com.pocketpal"
     defaultConfig {
-        applicationId "com.pocketpalai"
+        applicationId "app.dafeiyu.pocketpal"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 153

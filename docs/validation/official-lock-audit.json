@@ -1,0 +1,24 @@
+{
+  "scope": "Downloaded official text lockfiles and matched Git blob hashes; NO dependency installation or resolution performed.",
+  "commit": "213cdfe46b7690aadfd3dc5779c2d11d14fb3f2d",
+  "checks": [
+    {
+      "path": "yarn.lock",
+      "bytes": 472565,
+      "official_git_blob_sha": "444db185f1437188e2481a91757380436aaff18d",
+      "matches_official_tree": true
+    },
+    {
+      "path": "Gemfile.lock",
+      "bytes": 8632,
+      "official_git_blob_sha": "b2b36da249472bb4d3def609e48a3e7096ceeaf5",
+      "matches_official_tree": true
+    },
+    {
+      "path": "ios/Podfile.lock",
+      "bytes": 94782,
+      "official_git_blob_sha": "9fbb34be5d5c5434a005343c1302545efd10900c",
+      "matches_official_tree": true
+    }
+  ]
+}

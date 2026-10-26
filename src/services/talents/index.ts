@@ -3,6 +3,7 @@ import {CalculateEngine} from './CalculateEngine';
 import {DatetimeEngine} from './DatetimeEngine';
 import {WebSearchEngine} from './WebSearchEngine';
 import {ReadUrlEngine} from './ReadUrlEngine';
+import {MemoryBridgeEngine} from './MemoryBridgeEngine';
 import {talentRegistry} from './TalentRegistry';
 import type {SearchAccess} from './searchAccess';
 import type {ToolDefinition, SystemPromptContext} from './types';
@@ -62,6 +63,9 @@ export function registerDefaultTalents(): void {
   const searchAccess = createSearchAccess();
   talentRegistry.register(new WebSearchEngine(searchAccess));
   talentRegistry.register(new ReadUrlEngine(searchAccess));
+  talentRegistry.register(new MemoryBridgeEngine('recall_memory'));
+  talentRegistry.register(new MemoryBridgeEngine('save_memory'));
+  talentRegistry.register(new MemoryBridgeEngine('revise_belief'));
   registered = true;
 }
 

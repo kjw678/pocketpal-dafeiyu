@@ -142,14 +142,17 @@ describe('PACT cleanup: deriveToolSchemas()', () => {
     expect(talentRegistry.getAll()).toHaveLength(0);
 
     const schemas = deriveToolSchemas();
-    expect(schemas).toHaveLength(5);
+    expect(schemas).toHaveLength(8);
 
     const names = schemas.map(s => s.function.name).sort();
     expect(names).toEqual([
       'calculate',
       'datetime',
       'read_url',
+      'recall_memory',
       'render_html',
+      'revise_belief',
+      'save_memory',
       'web_search',
     ]);
   });
@@ -175,7 +178,7 @@ describe('PACT cleanup: deriveToolSchemas()', () => {
       tool_choice: 'auto' as const,
       jinja: true,
     };
-    expect(completionSettings.tools).toHaveLength(5);
+    expect(completionSettings.tools).toHaveLength(8);
     expect(completionSettings.tools[0].type).toBe('function');
   });
 });

@@ -1,3 +1,5 @@
+import type {MemoryContext} from '../memory/MemoryBridgeCore';
+
 export interface WebSearchResultItem {
   title: string;
   url: string;
@@ -51,6 +53,8 @@ export interface SystemPromptContext {
 
 export interface TalentExecuteContext {
   signal: AbortSignal;
+  /** Host snapshot; never read from model-generated tool arguments. */
+  memory?: MemoryContext;
 }
 
 export interface TalentEngine {

@@ -9,6 +9,7 @@ import type {
   CompletionResult,
 } from '../../utils/completionTypes';
 import type {TalentEngine} from '../talents/types';
+import type {MemoryContext} from '../memory/MemoryBridgeCore';
 
 /**
  * Tokens streamed from the engine, projected into a step-shaped delta.
@@ -111,5 +112,6 @@ export interface AgentRunOptions {
    * `run_started`; it does NOT touch any store. */
   messageId: string;
   maxTurns?: number;
+  memoryContext?: MemoryContext;
   signal?: AbortSignal;
 }

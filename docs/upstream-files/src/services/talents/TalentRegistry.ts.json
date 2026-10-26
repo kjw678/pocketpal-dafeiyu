@@ -1,0 +1,5 @@
+{
+  "path": "src/services/talents/TalentRegistry.ts",
+  "sha": "b113c916ae36b5c7a197f504021012082497b549",
+  "content": "import {TalentEngine} from './types';\n\n/**\n * Name-keyed registry for talent engines.\n *\n * Any Pal that declares a talent in its `pact.talents` can invoke an engine\n * registered under that name. There is NO Pal-id coupling: engines are generic\n * across Pals, and a Pal opts in by naming the talent.\n */\nexport class TalentRegistry {\n  private engines = new Map<string, TalentEngine>();\n\n  register(engine: TalentEngine): void {\n    this.engines.set(engine.name, engine);\n  }\n\n  get(name: string): TalentEngine | undefined {\n    return this.engines.get(name);\n  }\n\n  has(name: string): boolean {\n    return this.engines.has(name);\n  }\n\n  /** Return all registered engines. */\n  getAll(): TalentEngine[] {\n    return Array.from(this.engines.values());\n  }\n\n  /** Test helper: clear all registered engines. */\n  reset(): void {\n    this.engines.clear();\n  }\n}\n\nexport const talentRegistry = new TalentRegistry();\n"
+}

@@ -7,51 +7,44 @@
 
 import Foundation
 import AppIntents
+import UIKit
 
 @available(iOS 16.0, *)
 struct OpenPalChatIntent: AppIntent {
     static var title: LocalizedStringResource = "Open Pal Chat"
-    static var description = IntentDescription("Open PocketPal and start chatting with a specific Pal")
-    
+    static var description = IntentDescription("Open Dafeiyu and start chatting with a specific Pal")
+
     static var openAppWhenRun: Bool = true // Open the app
-    
+
     @Parameter(title: "Pal", description: "The Pal to chat with")
     var pal: PalEntity
-    
-    @Parameter(title: "Message", description: "Optional message to prefill", default: nil)
-    var message: String?
-    
+
     static var parameterSummary: some ParameterSummary {
-        Summary("Open chat with \(\.$pal)") {
-            \.$message
-        }
+        Summary("Open chat with \(\.$pal)")
     }
-    
+
     @MainActor
     func perform() async throws -> some IntentResult {
         // Build deep link URL
         var urlComponents = URLComponents()
-        urlComponents.scheme = "pocketpal"
+        urlComponents.scheme = "dafeiyu"
         urlComponents.host = "chat"
-        
-        var queryItems: [URLQueryItem] = [
-            URLQueryItem(name: "palId", value: pal.id),
-            URLQueryItem(name: "palName", value: pal.name)
+
+        // Only an opaque Pal identifier crosses this URL. Private messages
+        // must use the native Ask Pal action, never URL query parameters.
+        let queryItems: [URLQueryItem] = [
+            URLQueryItem(name: "palId", value: pal.id)
         ]
-        
-        if let message = message, !message.isEmpty {
-            queryItems.append(URLQueryItem(name: "message", value: message))
-        }
-        
+
         urlComponents.queryItems = queryItems
-        
+
         guard let url = urlComponents.url else {
             throw OpenPalChatError.invalidURL
         }
-        
+
         // Open the URL
         await UIApplication.shared.open(url)
-        
+
         return .result()
     }
 }
@@ -60,7 +53,7 @@ struct OpenPalChatIntent: AppIntent {
 
 enum OpenPalChatError: Error, LocalizedError {
     case invalidURL
-    
+
     var errorDescription: String? {
         switch self {
         case .invalidURL:
@@ -68,4 +61,3 @@ enum OpenPalChatError: Error, LocalizedError {
         }
     }
 }
-

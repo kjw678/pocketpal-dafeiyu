@@ -48,6 +48,7 @@ import {
 } from '../../components';
 import {AuthSheet} from '../../components/PalsHub';
 import {AccountCard} from './AccountCard';
+import {MemoryBridgeCard} from './MemoryBridgeCard';
 import {PurchasesCard} from './PurchasesCard';
 
 import {useTheme} from '../../hooks';
@@ -356,6 +357,7 @@ export const SettingsScreen: React.FC = observer(() => {
           contentContainerStyle={styles.container}
           keyboardShouldPersistTaps="handled">
           {/* Model Initialization Settings */}
+          <MemoryBridgeCard />
           <Card elevation={0} style={styles.card}>
             <Card.Title title={l10n.settings.modelInitializationSettings} />
             <Card.Content>

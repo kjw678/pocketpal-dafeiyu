@@ -19,7 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // Initialize Firebase
     // This is used exclusively for sending model benchmarks (with user consent) to Firebase.
     // Firebase is used for App Check functionality, allowing unauthenticated users to submit their benchmark data securely.
-    RNFBAppCheckModule.sharedInstance() 
+    RNFBAppCheckModule.sharedInstance()
     FirebaseApp.configure()
 
     let delegate = ReactNativeDelegate()
@@ -48,7 +48,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     options: [UIApplication.OpenURLOptionsKey : Any] = [:]
   ) -> Bool {
     // Handle deep links from Shortcuts
-    if url.scheme == "pocketpal" {
+    if url.scheme == "dafeiyu" {
       NotificationCenter.default.post(
         name: NSNotification.Name("RCTOpenURLNotification"),
         object: nil,

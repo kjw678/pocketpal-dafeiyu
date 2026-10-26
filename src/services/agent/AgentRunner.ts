@@ -14,6 +14,7 @@ import type {
   TokenDelta,
 } from './AgentRunner.types';
 import type {TalentResult} from '../talents/types';
+import type {MemoryContext} from '../memory/MemoryBridgeCore';
 
 export const DEFAULT_MAX_TURNS = 5;
 
@@ -140,6 +141,7 @@ async function executeOne(
   allowedTalentNames: string[],
   talentLookup: (name: string) => ReturnType<AgentRunOptions['talentLookup']>,
   signal?: AbortSignal,
+  memory?: MemoryContext,
 ): Promise<AgentToolOutcome> {
   const fnName = call.function?.name ?? '';
   const callId = call.id;
@@ -181,8 +183,11 @@ async function executeOne(
   }
 
   try {
-    const toolResult = await (signal
-      ? handler.execute(parsedArgs, {signal})
+    const toolResult = await (signal || memory
+      ? handler.execute(parsedArgs, {
+          signal: signal ?? new AbortController().signal,
+          memory,
+        })
       : handler.execute(parsedArgs));
     return {
       callId,
@@ -492,6 +497,7 @@ export async function* runAgent(
             allowedTalentNames,
             talentLookup,
             toolSignal,
+            options.memoryContext,
           );
           next += 1;
           running += 1;

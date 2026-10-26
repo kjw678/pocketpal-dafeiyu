@@ -1,0 +1,43 @@
+{
+  "recorded_at": "2026-10-25T18:39:58.489089+00:00",
+  "scope": "Local integrity/preparation unit tests and static checks ONLY; not a full app build",
+  "executed": [
+    {
+      "command": "python3 scripts/test-source-integrity.py",
+      "exit_code": 0,
+      "tests": 6,
+      "failed": 0,
+      "fixture_scope": "Tiny real Git repository fixtures and official tree metadata; no full client source"
+    },
+    {
+      "command": "python3 scripts/test-offline-preparation.py",
+      "exit_code": 0,
+      "tests": 11,
+      "failed": 0,
+      "fixture_scope": "Partial original-source fixture; full-checkout entry mocked; actual Git patch application exercised"
+    },
+    {
+      "command": "python3 scripts/update-overlay.py --check",
+      "exit_code": 0
+    },
+    {
+      "command": "git diff --check; git diff --cached --check",
+      "exit_code": 0
+    },
+    {
+      "command": "Python ast.parse + PyYAML safe_load",
+      "exit_code": 0,
+      "scope_detail": "Python script syntax and 3 workflow/action YAML files"
+    }
+  ],
+  "not_run": [
+    "full dependency installation",
+    "TypeScript",
+    "ESLint/Prettier",
+    "Jest",
+    "CocoaPods",
+    "Xcode archive",
+    "iPhone install/test"
+  ],
+  "github_actions_run_id": null
+}

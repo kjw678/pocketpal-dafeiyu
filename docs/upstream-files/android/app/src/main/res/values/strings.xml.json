@@ -1,0 +1,5 @@
+{
+  "path": "android/app/src/main/res/values/strings.xml",
+  "sha": "548335e2b70a3ba6f96a629b599df31f757cec45",
+  "content": "<resources>\n    <string name=\"app_name\">PocketPal</string>\n    <string name=\"download_channel_name\">Model downloads</string>\n</resources>\n"
+}

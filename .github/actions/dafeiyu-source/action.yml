@@ -1,0 +1,39 @@
+name: Prepare complete Dafeiyu source
+description: Verify a complete fork, or apply the reviewed patch to a complete pinned upstream checkout
+runs:
+  using: composite
+  steps:
+    - name: Detect complete fork or scoped overlay
+      id: layout
+      shell: bash
+      run: |
+        if test -f custom/yarn.lock; then
+          echo 'full=true' >> "$GITHUB_OUTPUT"
+        else
+          echo 'full=false' >> "$GITHUB_OUTPUT"
+        fi
+    - name: Verify existing full fork and make local cloud checkout
+      if: steps.layout.outputs.full == 'true'
+      shell: bash
+      run: |
+        python3 custom/scripts/verify-integrated-source.py
+        git clone --shared --no-hardlinks custom upstream
+    - name: Verify scoped overlay content
+      if: steps.layout.outputs.full != 'true'
+      shell: bash
+      run: python3 custom/scripts/update-overlay.py --check
+    - name: Obtain entire pinned official project on cloud worker
+      if: steps.layout.outputs.full != 'true'
+      uses: actions/checkout@v4
+      with:
+        repository: a-ghorbani/pocketpal-ai
+        ref: 213cdfe46b7690aadfd3dc5779c2d11d14fb3f2d
+        path: upstream
+        persist-credentials: false
+    - name: Check all official files then apply actual Git patch
+      if: steps.layout.outputs.full != 'true'
+      shell: bash
+      run: python3 custom/scripts/materialize-upstream.py --upstream upstream
+    - name: Export reviewable source patch
+      shell: bash
+      run: python3 custom/scripts/export-integration-patch.py --output "$RUNNER_TEMP/dafeiyu-integration.patch"

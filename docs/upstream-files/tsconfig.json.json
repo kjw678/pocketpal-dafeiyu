@@ -1,0 +1,5 @@
+{
+  "path": "tsconfig.json",
+  "sha": "f1c2e4a384aad58816864825dd7a04840ca175b5",
+  "content": "{\n  \"extends\": \"@react-native/typescript-config\",\n  \"compilerOptions\": {\n    \"noImplicitAny\": false,\n    \"experimentalDecorators\": true,\n    \"emitDecoratorMetadata\": true,\n    \"useDefineForClassFields\": true,\n    \"skipLibCheck\": true,\n  },\n  \"exclude\": [\"node_modules\", \"e2e\"]\n}\n"
+}

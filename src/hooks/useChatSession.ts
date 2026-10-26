@@ -1,4 +1,5 @@
 import React, {useRef} from 'react';
+import {makeMemoryContext} from '../services/memory/bridgeHost';
 import {AccessibilityInfo} from 'react-native';
 
 import {toJS} from 'mobx';
@@ -880,6 +881,14 @@ export const useChatSession = (
         triggerMarkers,
         messageId: messageInfo.id,
         signal: lease.signal,
+        memoryContext: localContext
+          ? makeMemoryContext(
+              messageInfo.sessionId,
+              toJS(chatSessionStore.currentSessionMessages),
+              user.id,
+              assistant.id,
+            )
+          : undefined,
       });
 
       // The chunk-cycle would otherwise run entirely via microtask

@@ -1,0 +1,199 @@
+name: Dafeiyu full project checks and unsigned iOS build
+
+on:
+  push:
+    branches: ['dfy/**']
+  workflow_call:
+    inputs:
+      build_ios:
+        type: boolean
+        default: false
+  workflow_dispatch:
+    inputs:
+      build_ios:
+        description: Attempt unsigned device archive after full project checks
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+concurrency:
+  group: dafeiyu-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    env:
+      RNLLAMA_SKIP_POSTINSTALL: '1'
+      NODE_OPTIONS: '--max-old-space-size=4096'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: custom
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: ./custom/.github/actions/dafeiyu-source
+      - name: Run preparation unit tests (fixtures, NOT a full build)
+        working-directory: custom
+        run: |
+          python3 scripts/test-source-integrity.py
+          python3 scripts/test-offline-preparation.py
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.21.0'
+      - run: npm install --global yarn@1.22.22
+      - name: Protocol tests with in-process service double (NOT phone tests)
+        working-directory: upstream
+        shell: bash
+        run: |
+          set -o pipefail
+          node scripts/test-memory-core.cjs 2>&1 | tee "$RUNNER_TEMP/protocol.log"
+      - name: Install frozen JavaScript dependencies on CLOUD only
+        id: install
+        working-directory: upstream
+        shell: bash
+        run: |
+          set -o pipefail
+          yarn install --frozen-lockfile --non-interactive 2>&1 | tee "$RUNNER_TEMP/yarn-install.log"
+          git diff --exit-code -- yarn.lock
+      - name: Full project TypeScript
+        id: typecheck
+        if: ${{ !cancelled() && steps.install.outcome == 'success' }}
+        working-directory: upstream
+        shell: bash
+        run: |
+          set -o pipefail
+          yarn typecheck 2>&1 | tee "$RUNNER_TEMP/typecheck.log"
+      - name: Full project ESLint
+        id: lint
+        if: ${{ !cancelled() && steps.install.outcome == 'success' }}
+        working-directory: upstream
+        shell: bash
+        run: |
+          set -o pipefail
+          yarn lint 2>&1 | tee "$RUNNER_TEMP/lint.log"
+      - name: Full upstream Jest suite including memory integration
+        id: jest
+        if: ${{ !cancelled() && steps.install.outcome == 'success' }}
+        working-directory: upstream
+        shell: bash
+        run: |
+          set -o pipefail
+          yarn test --runInBand --coverage=false 2>&1 | tee "$RUNNER_TEMP/jest.log"
+      - name: Record actual check outcomes
+        if: always()
+        env:
+          INSTALL: ${{ steps.install.outcome }}
+          TYPECHECK: ${{ steps.typecheck.outcome }}
+          LINT: ${{ steps.lint.outcome }}
+          JEST: ${{ steps.jest.outcome }}
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+          result = {key: os.environ.get(key) for key in ['INSTALL', 'TYPECHECK', 'LINT', 'JEST']}
+          result.update(commit=os.environ['GITHUB_SHA'], run_id=os.environ['GITHUB_RUN_ID'], iphone_tested=False)
+          Path(os.environ['RUNNER_TEMP'], 'check-outcomes.json').write_text(json.dumps(result, indent=2))
+          PY
+      - name: Upload actual logs, outcomes and source patch
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dafeiyu-full-project-checks
+          path: |
+            ${{ runner.temp }}/*.log
+            ${{ runner.temp }}/check-outcomes.json
+            ${{ runner.temp }}/dafeiyu-integration.patch
+          if-no-files-found: error
+          retention-days: 7
+
+  unsigned-ios:
+    if: ${{ github.event_name == 'push' || inputs.build_ios }}
+    needs: verify
+    runs-on: macos-26
+    timeout-minutes: 90
+    env:
+      NODE_OPTIONS: '--max-old-space-size=6144'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: custom
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: ./custom/.github/actions/dafeiyu-source
+      - name: Record actual Xcode and iPhoneOS SDK
+        shell: bash
+        run: |
+          set -o pipefail
+          xcodebuild -version | tee "$RUNNER_TEMP/xcode-version.log"
+          xcrun --sdk iphoneos --show-sdk-version | tee -a "$RUNNER_TEMP/xcode-version.log"
+      - name: Validate real service configuration; never generate placeholders
+        working-directory: upstream
+        env:
+          DFY_RUNTIME_ENV: ${{ secrets.DFY_RUNTIME_ENV }}
+          DFY_IOS_XCCONFIG: ${{ secrets.DFY_IOS_XCCONFIG }}
+          DFY_FIREBASE_PLIST: ${{ secrets.DFY_FIREBASE_PLIST }}
+        run: python3 scripts/prepare-ios-config.py --from-environment
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.21.0'
+      - run: npm install --global yarn@1.22.22
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+          working-directory: upstream
+          bundler-cache: true
+      - name: Install frozen JS dependencies on macOS
+        working-directory: upstream
+        shell: bash
+        run: |
+          set -o pipefail
+          yarn install --frozen-lockfile --non-interactive 2>&1 | tee "$RUNNER_TEMP/ios-yarn-install.log"
+          git diff --exit-code -- yarn.lock
+      - name: Install locked native dependencies
+        working-directory: upstream/ios
+        shell: bash
+        run: |
+          set -o pipefail
+          bundle exec pod install --deployment 2>&1 | tee "$RUNNER_TEMP/pod-install.log"
+          git diff --exit-code -- Podfile.lock
+      - name: Build unsigned device archive (NOT an installable IPA)
+        working-directory: upstream
+        shell: bash
+        run: |
+          set -euo pipefail
+          xcodebuild archive \
+            -jobs 2 \
+            -workspace ios/PocketPal.xcworkspace \
+            -scheme PocketPal -configuration Release \
+            -sdk iphoneos -destination 'generic/platform=iOS' \
+            -archivePath "$RUNNER_TEMP/Dafeiyu-unsigned.xcarchive" \
+            -resultBundlePath "$RUNNER_TEMP/Dafeiyu-unsigned.xcresult" \
+            CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY='' \
+            2>&1 | tee "$RUNNER_TEMP/dafeiyu-unsigned-build.log"
+          test -d "$RUNNER_TEMP/Dafeiyu-unsigned.xcarchive/Products/Applications/PocketPal.app"
+          printf '%s\n' 'UNSIGNED ARCHIVE. Cannot install on iPhone. No IPA exported.' > "$RUNNER_TEMP/UNSIGNED-README.txt"
+          ditto -c -k --keepParent "$RUNNER_TEMP/Dafeiyu-unsigned.xcarchive" "$RUNNER_TEMP/Dafeiyu-unsigned.xcarchive.zip"
+      - name: Upload unsigned archive only after successful xcodebuild
+        uses: actions/upload-artifact@v4
+        with:
+          name: dafeiyu-UNSIGNED-device-archive-NOT-INSTALLABLE
+          path: |
+            ${{ runner.temp }}/Dafeiyu-unsigned.xcarchive.zip
+            ${{ runner.temp }}/UNSIGNED-README.txt
+          if-no-files-found: error
+          retention-days: 7
+      - name: Upload actual native build logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dafeiyu-native-build-logs
+          path: |
+            ${{ runner.temp }}/*.log
+            ${{ runner.temp }}/Dafeiyu-unsigned.xcresult
+          if-no-files-found: ignore
+          retention-days: 7

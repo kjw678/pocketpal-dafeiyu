@@ -1,0 +1,5 @@
+{
+  "path": "Gemfile",
+  "sha": "3c11d84f57c5c5b783fd9564963ccdf0bbd25ddd",
+  "content": "source 'https://rubygems.org'\n\n# You may use http://rbenv.org/ or https://rvm.io/ to install and use this version\nruby \"3.2.3\"\n\n# Exclude problematic versions of cocoapods and activesupport that causes build failures.\ngem 'cocoapods', '>= 1.13', '!= 1.15.0', '!= 1.15.1'\ngem 'activesupport', '>= 6.1.7.5', '!= 7.1.0'\ngem 'xcodeproj', '< 1.26.0'\ngem 'concurrent-ruby', '< 1.3.4'\n\n# Ruby 3.4.0 has removed some libraries from the standard library.\ngem 'bigdecimal'\ngem 'logger'\ngem 'benchmark'\ngem 'mutex_m'\ngem 'nkf'\n\n\n# Fastlane\ngem \"fastlane\"\ngem \"fastlane-plugin-versioning\"\ngem 'fastlane-plugin-versioning_android'\n"
+}

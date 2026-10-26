@@ -1,0 +1,135 @@
+name: Dafeiyu signed iOS export (requires legal signing assets)
+
+on:
+  workflow_dispatch:
+    inputs:
+      distribution_method:
+        description: Ad Hoc requires this iPhone in the profile; App Store export still needs upload
+        type: choice
+        options:
+          - release-testing
+          - app-store-connect
+        default: release-testing
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    uses: ./.github/workflows/dafeiyu-validate-ios.yml
+    with:
+      build_ios: false
+
+  sign:
+    # V0.7 integration phase: legal signing is deferred until a full build passes.
+    if: ${{ false }}
+    needs: verify
+    environment: ios-signing
+    runs-on: macos-26
+    timeout-minutes: 90
+    env:
+      NODE_OPTIONS: '--max-old-space-size=6144'
+      DFY_EXPORT_METHOD: ${{ inputs.distribution_method }}
+    steps:
+      - name: Require signing secrets without printing their contents
+        env:
+          DFY_P12_BASE64: ${{ secrets.DFY_P12_BASE64 }}
+          DFY_P12_PASSWORD: ${{ secrets.DFY_P12_PASSWORD }}
+          DFY_PROFILE_BASE64: ${{ secrets.DFY_PROFILE_BASE64 }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ -z "$DFY_P12_BASE64" || -z "$DFY_P12_PASSWORD" || -z "$DFY_PROFILE_BASE64" ]]; then
+            echo 'Required legal certificate/profile secrets are missing; no signed build is possible.' >&2
+            exit 2
+          fi
+      - uses: actions/checkout@v4
+        with:
+          path: custom
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/checkout@v4
+        with:
+          repository: a-ghorbani/pocketpal-ai
+          ref: 213cdfe46b7690aadfd3dc5779c2d11d14fb3f2d
+          path: upstream
+          persist-credentials: false
+      - run: python3 custom/scripts/materialize-upstream.py --upstream upstream
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.21.0'
+      - run: npm install --global yarn@1.22.22
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+          working-directory: upstream
+          bundler-cache: true
+      - name: Prepare full source on macOS
+        working-directory: upstream
+        run: |
+          yarn install --frozen-lockfile --non-interactive
+          python3 scripts/prepare-ios-config.py
+          cd ios
+          bundle exec pod install
+      - name: Import distribution assets into temporary keychain
+        env:
+          DFY_P12_BASE64: ${{ secrets.DFY_P12_BASE64 }}
+          DFY_P12_PASSWORD: ${{ secrets.DFY_P12_PASSWORD }}
+          DFY_PROFILE_BASE64: ${{ secrets.DFY_PROFILE_BASE64 }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          umask 077
+          python3 - <<'PY'
+          import base64, os
+          from pathlib import Path
+          root = Path(os.environ['RUNNER_TEMP'])
+          for key, name in [('DFY_P12_BASE64', 'dfy-certificate.p12'), ('DFY_PROFILE_BASE64', 'dfy-profile.mobileprovision')]:
+              (root / name).write_bytes(base64.b64decode(os.environ[key], validate=True))
+          PY
+          DFY_TEMP_KEYCHAIN_PASSWORD="$(openssl rand -hex 24)"
+          echo "::add-mask::$DFY_TEMP_KEYCHAIN_PASSWORD"
+          DFY_SIGNING_KEYCHAIN="$RUNNER_TEMP/dfy-signing.keychain-db"
+          security create-keychain -p "$DFY_TEMP_KEYCHAIN_PASSWORD" "$DFY_SIGNING_KEYCHAIN"
+          security set-keychain-settings -lut 21600 "$DFY_SIGNING_KEYCHAIN"
+          security unlock-keychain -p "$DFY_TEMP_KEYCHAIN_PASSWORD" "$DFY_SIGNING_KEYCHAIN"
+          security import "$RUNNER_TEMP/dfy-certificate.p12" -P "$DFY_P12_PASSWORD" -k "$DFY_SIGNING_KEYCHAIN" -t cert -f pkcs12 -T /usr/bin/codesign
+          security set-key-partition-list -S apple-tool:,apple:,codesign: -k "$DFY_TEMP_KEYCHAIN_PASSWORD" "$DFY_SIGNING_KEYCHAIN"
+          security list-keychains -d user -s "$DFY_SIGNING_KEYCHAIN"
+          security cms -D -i "$RUNNER_TEMP/dfy-profile.mobileprovision" > "$RUNNER_TEMP/dfy-profile.plist"
+          python3 upstream/scripts/prepare-signing.py --profile-plist "$RUNNER_TEMP/dfy-profile.plist" --method "$DFY_EXPORT_METHOD" --output "$RUNNER_TEMP/dfy-export-options.plist"
+          python3 - <<'PY'
+          import os, plistlib
+          from pathlib import Path
+          root = Path(os.environ['RUNNER_TEMP'])
+          options = plistlib.loads((root / 'dfy-export-options.plist').read_bytes())
+          uuid = options['provisioningProfiles']['app.dafeiyu.pocketpal']
+          # Support current Xcode's directory and the documented legacy one.
+          for suffix in ['Library/MobileDevice/Provisioning Profiles', 'Library/Developer/Xcode/UserData/Provisioning Profiles']:
+              directory = Path.home() / suffix
+              directory.mkdir(parents=True, exist_ok=True)
+              (directory / (uuid + '.mobileprovision')).write_bytes((root / 'dfy-profile.mobileprovision').read_bytes())
+          values = {'DFY_TEAM_ID': options['teamID'], 'DFY_PROFILE_UUID': uuid, 'DFY_SIGNING_KEYCHAIN': str(root / 'dfy-signing.keychain-db'), 'DFY_EXPORT_OPTIONS': str(root / 'dfy-export-options.plist'), 'DFY_OUTPUT_DIR': str(root / 'dfy-output')}
+          with open(os.environ['GITHUB_ENV'], 'a') as output:
+              for key, value in values.items():
+                  output.write(key + '=' + value + '\n')
+          PY
+      - name: Archive, verify signature and export real signed product
+        working-directory: upstream
+        run: bash scripts/archive-signed-ios.sh
+      - name: Upload signed IPA only after successful Apple export
+        uses: actions/upload-artifact@v4
+        with:
+          name: dafeiyu-signed-${{ inputs.distribution_method }}
+          path: ${{ runner.temp }}/dfy-output/export/*.ipa
+          if-no-files-found: error
+          retention-days: 3
+      - name: Remove signing assets
+        if: always()
+        shell: bash
+        run: |
+          security delete-keychain "$RUNNER_TEMP/dfy-signing.keychain-db" 2>/dev/null || true
+          rm -f "$RUNNER_TEMP/dfy-certificate.p12" "$RUNNER_TEMP/dfy-profile.mobileprovision" "$RUNNER_TEMP/dfy-profile.plist" "$RUNNER_TEMP/dfy-export-options.plist"
+          if [[ -n "${DFY_PROFILE_UUID:-}" ]]; then
+            rm -f "$HOME/Library/MobileDevice/Provisioning Profiles/$DFY_PROFILE_UUID.mobileprovision" "$HOME/Library/Developer/Xcode/UserData/Provisioning Profiles/$DFY_PROFILE_UUID.mobileprovision"
+          fi

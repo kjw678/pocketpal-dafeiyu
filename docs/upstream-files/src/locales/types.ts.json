@@ -1,0 +1,5 @@
+{
+  "path": "src/locales/types.ts",
+  "sha": "0958f15ecd3628e6fbd46d7783b8c2da9275bf8c",
+  "content": "import en from './en.json';\n\nexport type Translations = typeof en;\n"
+}

@@ -1,0 +1,186 @@
+{
+  "suite": "memory-core-in-process-mock",
+  "passed": 43,
+  "failed": 0,
+  "results": [
+    {
+      "name": "recall uses authenticated POST and query only in body",
+      "status": "passed"
+    },
+    {
+      "name": "save takes authentic host bytes and transcript_only provenance",
+      "status": "passed"
+    },
+    {
+      "name": "plans in actual transcript never become executed actions",
+      "status": "passed"
+    },
+    {
+      "name": "recent-message selection includes actual earlier reply without inventing IDs",
+      "status": "passed"
+    },
+    {
+      "name": "conflicting selection methods rejected before network",
+      "status": "passed"
+    },
+    {
+      "name": "identical write replay reuses idempotency key and one row",
+      "status": "passed"
+    },
+    {
+      "name": "parallel duplicate writes still use same event identity",
+      "status": "passed"
+    },
+    {
+      "name": "source order cannot bypass idempotency",
+      "status": "passed"
+    },
+    {
+      "name": "authentication failure sanitized and no record committed",
+      "status": "passed"
+    },
+    {
+      "name": "network exception cannot leak token or chat",
+      "status": "passed"
+    },
+    {
+      "name": "commit then lost reply reconciles with same idempotency key",
+      "status": "passed"
+    },
+    {
+      "name": "belief revision binds user evidence and preserves history",
+      "status": "passed"
+    },
+    {
+      "name": "stale revision rejected with no history rewrite",
+      "status": "passed"
+    },
+    {
+      "name": "nonexistent belief cannot be created by revise",
+      "status": "passed"
+    },
+    {
+      "name": "no configuration",
+      "status": "passed"
+    },
+    {
+      "name": "read permission off",
+      "status": "passed"
+    },
+    {
+      "name": "write permission off",
+      "status": "passed"
+    },
+    {
+      "name": "HTTP rejected",
+      "status": "passed"
+    },
+    {
+      "name": "query in endpoint rejected",
+      "status": "passed"
+    },
+    {
+      "name": "userinfo rejected",
+      "status": "passed"
+    },
+    {
+      "name": "unknown source rejected",
+      "status": "passed"
+    },
+    {
+      "name": "model cannot supply transcript text",
+      "status": "passed"
+    },
+    {
+      "name": "model cannot select a URL or credential",
+      "status": "passed"
+    },
+    {
+      "name": "oversized query rejected",
+      "status": "passed"
+    },
+    {
+      "name": "empty transcript selection rejected",
+      "status": "passed"
+    },
+    {
+      "name": "duplicate source IDs rejected",
+      "status": "passed"
+    },
+    {
+      "name": "user declined",
+      "status": "passed"
+    },
+    {
+      "name": "assistant-only belief evidence rejected",
+      "status": "passed"
+    },
+    {
+      "name": "missing local context rejected",
+      "status": "passed"
+    },
+    {
+      "name": "oversized actual message rejected before network",
+      "status": "passed"
+    },
+    {
+      "name": "UTF-8 body byte bound applies before approval/network",
+      "status": "passed"
+    },
+    {
+      "name": "abort before call sends nothing",
+      "status": "passed"
+    },
+    {
+      "name": "configuration revocation during review prevents egress",
+      "status": "passed"
+    },
+    {
+      "name": "audit failure before transport fails closed",
+      "status": "passed"
+    },
+    {
+      "name": "audit failure after successful commit retains honest receipt",
+      "status": "passed"
+    },
+    {
+      "name": "mismatched receipt hash rejected",
+      "status": "passed"
+    },
+    {
+      "name": "mismatched request correlation rejected",
+      "status": "passed"
+    },
+    {
+      "name": "malformed response rejected",
+      "status": "passed"
+    },
+    {
+      "name": "oversized response rejected",
+      "status": "passed"
+    },
+    {
+      "name": "credential accidentally echoed by server is rejected",
+      "status": "passed"
+    },
+    {
+      "name": "untrusted server control fields dropped from recall result",
+      "status": "passed"
+    },
+    {
+      "name": "unknown operation cannot reach arbitrary route",
+      "status": "passed"
+    },
+    {
+      "name": "invalid endpoint characters rejected",
+      "status": "passed"
+    }
+  ],
+  "runtime": "functions.exec V8 isolate; no HTTP listener, no iPhone, no production server",
+  "executed_at": "2026-10-25T17:35:43.689Z",
+  "sha256": {
+    "src/services/memory/MemoryBridgeCore.js": "52fd58b115e72726d860bddb023be0c5082d305dde3125df2beb5a7c2f569ac7",
+    "scripts/test-memory-core.cjs": "656f7317dc478842c15a0a97f23fb604da5dea1206f093640387fc04ab276a15"
+  },
+  "digest_test_scope": "Injected deterministic digest double; production iOS CryptoKit SHA256 has not been executed here."
+}

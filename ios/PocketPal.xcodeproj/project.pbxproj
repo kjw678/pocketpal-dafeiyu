@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DF0700000000000000000001 /* DFYMemoryHTTP.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF0700000000000000000003 /* DFYMemoryHTTP.swift */; };
+		DF0700000000000000000002 /* DFYMemoryHTTPBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = DF0700000000000000000004 /* DFYMemoryHTTPBridge.m */; };
 		07332F05959E4DB0A6228E3F /* JetBrainsMono-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FF9D2CC3DF0F4073AB223CC1 /* JetBrainsMono-Regular.ttf */; };
 		12AF82A15E3F4E718F83B5CB /* Fraunces-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5CA7744EABD04174A8E4568B /* Fraunces-Italic.ttf */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
@@ -58,6 +60,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		DF0700000000000000000003 /* DFYMemoryHTTP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DFYMemoryHTTP.swift; path = PocketPal/DFYMemoryHTTP.swift; sourceTree = "<group>"; };
+		DF0700000000000000000004 /* DFYMemoryHTTPBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = DFYMemoryHTTPBridge.m; path = PocketPal/DFYMemoryHTTPBridge.m; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* PocketPal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PocketPal.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = PocketPal/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = PocketPal/Info.plist; sourceTree = "<group>"; };
@@ -163,6 +167,8 @@
 				A810010E2E92E09600935976 /* KeepAwakeModule.mm */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				761780EC2CA45674006654EE /* AppDelegate.swift */,
+				DF0700000000000000000003 /* DFYMemoryHTTP.swift */,
+				DF0700000000000000000004 /* DFYMemoryHTTPBridge.m */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */,
@@ -512,6 +518,8 @@
 				A8B4FFD82EA5731700CD3B4C /* OpenPalChatIntent.swift in Sources */,
 				A8B4FFD92EA5731700CD3B4C /* PalEntity.swift in Sources */,
 				761780ED2CA45674006654EE /* AppDelegate.swift in Sources */,
+				DF0700000000000000000001 /* DFYMemoryHTTP.swift in Sources */,
+				DF0700000000000000000002 /* DFYMemoryHTTPBridge.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -542,7 +550,7 @@
 				CODE_SIGN_ENTITLEMENTS = PocketPal/PocketPal.entitlements;
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 153;
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = MYXGXY23Y6;
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = "";
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = PocketPal/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
@@ -556,7 +564,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = ai.pocketpal;
+				PRODUCT_BUNDLE_IDENTIFIER = app.dafeiyu.pocketpal;
 				PRODUCT_NAME = PocketPal;
 				PROVISIONING_PROFILE_SPECIFIER = "match Development ai.pocketpal";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "match Development ai.pocketpal";
@@ -581,7 +589,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 153;
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = MYXGXY23Y6;
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = "";
 				INFOPLIST_FILE = PocketPal/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -594,7 +602,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = ai.pocketpal;
+				PRODUCT_BUNDLE_IDENTIFIER = app.dafeiyu.pocketpal;
 				PRODUCT_NAME = PocketPal;
 				PROVISIONING_PROFILE_SPECIFIER = "match AppStore ai.pocketpal";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "match AppStore ai.pocketpal";
@@ -640,7 +648,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development";
 				COPY_PHASE_STRIP = NO;
-				DEVELOPMENT_TEAM = MYXGXY23Y6;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "";
@@ -755,7 +763,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Distribution";
 				COPY_PHASE_STRIP = YES;
-				DEVELOPMENT_TEAM = MYXGXY23Y6;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "";
@@ -854,7 +862,7 @@
 				MARKETING_VERSION = 1.21.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = ai.PocketPalTests;
+				PRODUCT_BUNDLE_IDENTIFIER = app.dafeiyu.pocketpal.tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
@@ -886,7 +894,7 @@
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MARKETING_VERSION = 1.21.0;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = ai.PocketPalTests;
+				PRODUCT_BUNDLE_IDENTIFIER = app.dafeiyu.pocketpal.tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
@@ -928,7 +936,7 @@
 				CODE_SIGN_IDENTITY = "Apple Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Distribution";
 				COPY_PHASE_STRIP = YES;
-				DEVELOPMENT_TEAM = MYXGXY23Y6;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "";
@@ -1013,7 +1021,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 153;
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = MYXGXY23Y6;
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = "";
 				INFOPLIST_FILE = PocketPal/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1026,7 +1034,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = ai.pocketpal;
+				PRODUCT_BUNDLE_IDENTIFIER = app.dafeiyu.pocketpal;
 				PRODUCT_NAME = PocketPal;
 				PROVISIONING_PROFILE_SPECIFIER = "match Development ai.pocketpal";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "match AppStore ai.pocketpal";
@@ -1063,7 +1071,7 @@
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MARKETING_VERSION = 1.21.0;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = ai.PocketPalTests;
+				PRODUCT_BUNDLE_IDENTIFIER = app.dafeiyu.pocketpal.tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;

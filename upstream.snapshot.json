@@ -1,0 +1,130 @@
+{
+  "repository": "https://github.com/a-ghorbani/pocketpal-ai",
+  "tag": "v1.21.0",
+  "commit": "213cdfe46b7690aadfd3dc5779c2d11d14fb3f2d",
+  "license": "MIT; Copyright (c) 2024 Asghar Ghorbani",
+  "acquisition": "GitHub connector; scoped source snapshot (not a full clone); shell Git DNS unavailable",
+  "files": [
+    {
+      "path": "AGENTS.md",
+      "sha": "54b12dc8e9087b40ef587d661cc35e21bdcc500c"
+    },
+    {
+      "path": "LICENSE",
+      "sha": "e7eb7856d5b9c14bf66f1de361acbe62634fa757"
+    },
+    {
+      "path": ".gitignore",
+      "sha": "daacb7d4e27531f74078c6b232dcb7c89a2c23be"
+    },
+    {
+      "path": "app.json",
+      "sha": "2b264a63e57e8c57d02e2e582d3cbe53565f79c0"
+    },
+    {
+      "path": "package.json",
+      "sha": "af54bba964f1afeca0e32520141afde7cbe21a68"
+    },
+    {
+      "path": "tsconfig.json",
+      "sha": "f1c2e4a384aad58816864825dd7a04840ca175b5"
+    },
+    {
+      "path": "jest.config.js",
+      "sha": "78474fd298e9614e63078d91a2f7d712abfb1050"
+    },
+    {
+      "path": "Gemfile",
+      "sha": "3c11d84f57c5c5b783fd9564963ccdf0bbd25ddd"
+    },
+    {
+      "path": "ios/Podfile",
+      "sha": "3935c7c8b773fd43ed5bb3302b9863220407346e"
+    },
+    {
+      "path": "ios/PocketPal/Info.plist",
+      "sha": "afa9962f0a67ee3ab8924e50b63c1b4431953679"
+    },
+    {
+      "path": "ios/PocketPal/PocketPal.entitlements",
+      "sha": "3bbc7f897f4b37757f1c6163bb7fec122ae9c9bc"
+    },
+    {
+      "path": "ios/PocketPal.xcodeproj/project.pbxproj",
+      "sha": "e8de0cafdfa3ce8f7d0a83024c38158959f1f707"
+    },
+    {
+      "path": "ios/PocketPal.xcodeproj/xcshareddata/xcschemes/PocketPal.xcscheme",
+      "sha": "0e1746a73baa2c388717e57338592279276d908b"
+    },
+    {
+      "path": "android/app/build.gradle",
+      "sha": "919849a9ac2437ab0dea920f05828d5bcd1406f2"
+    },
+    {
+      "path": "android/app/src/main/res/values/strings.xml",
+      "sha": "548335e2b70a3ba6f96a629b599df31f757cec45"
+    },
+    {
+      "path": "src/services/talents/index.ts",
+      "sha": "6af64ed14a6a1ed22946d56863f0682ea63da690"
+    },
+    {
+      "path": "src/services/talents/types.ts",
+      "sha": "4fe05641aa5b7a80891c36c46dcefeaedf5dbd5a"
+    },
+    {
+      "path": "src/services/talents/TalentRegistry.ts",
+      "sha": "b113c916ae36b5c7a197f504021012082497b549"
+    },
+    {
+      "path": "src/services/talents/untrustedContent.ts",
+      "sha": "10b1824b0e58d5156cbad8ededdafaea88dc04a8"
+    },
+    {
+      "path": "src/services/agent/AgentRunner.ts",
+      "sha": "c8a9de50228261a1f0fd8d2f8a5d2abd588c54a6"
+    },
+    {
+      "path": "src/services/agent/AgentRunner.types.ts",
+      "sha": "03439eb446d5f167f345aaac88679eef3a232330"
+    },
+    {
+      "path": "src/hooks/useChatSession.ts",
+      "sha": "ee090d3d8e4b16c1baf8e63a3f40cb03aa1ccd40"
+    },
+    {
+      "path": "src/screens/SettingsScreen/SettingsScreen.tsx",
+      "sha": "e62c998b3415e2049e4ccbedbec1e9425c0a4745"
+    },
+    {
+      "path": "src/locales/en.json",
+      "sha": "eac3d0877ec9451db3708972b18e91606301e77c"
+    },
+    {
+      "path": "src/locales/types.ts",
+      "sha": "0958f15ecd3628e6fbd46d7783b8c2da9275bf8c"
+    },
+    {
+      "path": "src/services/talents/__tests__/morgan-review-fixes.test.ts",
+      "sha": "b9643cbb9edebdd836301d9cad85ed947e3ed5cf"
+    },
+    {
+      "path": "src/services/talents/__tests__/pact-vocabulary-audit.test.ts",
+      "sha": "53cb10695a5aa83db0f635ef0bb9a4600c19d3e9"
+    },
+    {
+      "path": "src/services/talents/__tests__/pact-cleanup.test.ts",
+      "sha": "487ba7b1a5bd3cd23d67c458ec3256d6a1c2e6f3"
+    },
+    {
+      "path": "ios/PocketPal/AppIntents/OpenPalChatIntent.swift",
+      "sha": "80481677270a008bf4a2e333925d31bf072394e1"
+    },
+    {
+      "path": "ios/PocketPal/AppDelegate.swift",
+      "sha": "cbdca6b9438c616dd3570830531873eb22b5ab38"
+    }
+  ],
+  "local_snapshot_commit": "2bce42d865e3300dbce874743c8496c8a6ea2eb5"
+}

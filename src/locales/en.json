@@ -902,14 +902,20 @@
         "calculate": "Math expressions",
         "datetime": "Date & time",
         "web_search": "Web search",
-        "read_url": "Read web page"
+        "read_url": "Read web page",
+        "recall_memory": "Recall private memory",
+        "save_memory": "Save actual chat",
+        "revise_belief": "Revise a belief with evidence"
       },
       "talentDescriptions": {
         "render_html": "Render HTML documents inline in chat",
         "calculate": "Evaluate mathematical expressions",
         "datetime": "Get the current date and time",
         "web_search": "Search the internet for current information (requires API key in Settings)",
-        "read_url": "Read the full content of a web page (requires API key in Settings)"
+        "read_url": "Read the full content of a web page (requires API key in Settings)",
+        "recall_memory": "Search the configured private memory service using authenticated POST.",
+        "save_memory": "Upload actual local transcript messages after reviewing the payload. Statements are not verified events.",
+        "revise_belief": "Review an evidence-linked belief revision; preserve server history with version checks."
       },
       "greeting": {
         "sectionLabel": "Greeting",
@@ -1066,7 +1072,12 @@
         "total": "Total: ",
         "usage": "Usage: "
       },
-      "byteSizes": ["Bytes", "KB", "MB", "GB"]
+      "byteSizes": [
+        "Bytes",
+        "KB",
+        "MB",
+        "GB"
+      ]
     },
     "chatView": {
       "menuItems": {
