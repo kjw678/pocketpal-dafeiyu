@@ -174,6 +174,14 @@
       "sha256": "24ab90ead36b0a80cb89e177f0cc96cc806a2bd781eb30dc8d65e036020bd909"
     },
     {
+      "path": "docs/upstream-files/src/store/ModelStore.ts.json",
+      "sha256": "6d671f1f7f87491929ac3567a79a5d259792a8b097fa98cfaa3bba7a3d0d2d1b"
+    },
+    {
+      "path": "docs/upstream-files/src/store/__tests__/ModelStore.routerReadiness.test.ts.json",
+      "sha256": "7f80dc5bf3b36187286734c554f362fb78ca3d2a27069d72866bd946ad8a4164"
+    },
+    {
       "path": "docs/upstream-files/tsconfig.json.json",
       "sha256": "c8b5e456e7172c08b979988a095ad339267f8d855e19e75f8afd1dd19fc33f74"
     },
@@ -378,12 +386,20 @@
       "sha256": "014efa8c60bc04f1a09bd181267b391e826e8f349d5fc4fd44fcafd6f821d739"
     },
     {
+      "path": "src/store/ModelStore.ts",
+      "sha256": "85049028f28c9956435927d8665e122c7bc4fbed4be31c1fd46707b3058497af"
+    },
+    {
+      "path": "src/store/__tests__/ModelStore.routerReadiness.test.ts",
+      "sha256": "24cfccb527b0efef4b925b510d2983b881a28ab7acf7145f6f59193c8dbe7472"
+    },
+    {
       "path": "tsconfig.json",
       "sha256": "03c2c9cec6999d2895f4c7dabb85e9c9fb145c6a615e39bf76f1c484c7d97dae"
     },
     {
       "path": "upstream.snapshot.json",
-      "sha256": "c16f5528825fc28f53e51b3ce6e985c2d1d417c977add38adb7bbc3b4a9cd2ca"
+      "sha256": "317f44faf70ff68c81e6bf0cf913d9c36da5611cfe509cde123b0f99e41a7527"
     },
     {
       "path": "upstream.tree.json",

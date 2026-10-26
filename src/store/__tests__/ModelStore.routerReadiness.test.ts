@@ -1,10 +1,29 @@
 import {modelStore} from '../ModelStore';
+import {fetchRules} from '../../services/deviceRules/rules';
+import {parseDeviceRules} from '../../services/deviceRules/parse';
+import iosRules from '../bundledDeviceRules/rules.ios.json';
+import type {DeviceRules} from '../../services/deviceRules/types';
 import {serverStore} from '../ServerStore';
 import {routerStore} from '../RouterStore';
 import {OpenAICompletionEngine} from '../../api/completionEngines';
 import {streamChatCompletion} from '../../api/openai';
 import type {ServerType} from '../../utils/serverTypes';
 import {RemoteModelRequestWithdrawnError} from '../../utils/errors';
+
+// Keep the real rule parsing and signal reads, but model an online response
+// arriving after the fast readiness tests. No external network is needed.
+jest.mock('../../services/deviceRules/rules', () => {
+  const {parseDeviceRules} = jest.requireActual(
+    '../../services/deviceRules/parse',
+  );
+  const rules = jest.requireActual('../bundledDeviceRules/rules.ios.json');
+  return {
+    fetchRules: jest.fn(async () => {
+      await new Promise(resolve => setTimeout(resolve, 100));
+      return parseDeviceRules(rules, '1.21.0');
+    }),
+  };
+});
 
 jest.mock('../ServerStore', () => ({
   serverStore: {
@@ -67,6 +86,14 @@ const settlesOnAbort = (_binding: unknown, signal: AbortSignal) =>
   });
 
 describe('remote model readiness', () => {
+  beforeAll(async () => {
+    await modelStore.whenInitialized();
+  });
+
+  afterAll(async () => {
+    await modelStore.whenInitialized();
+  });
+
   beforeEach(() => {
     jest.clearAllMocks();
     mockedEnsureLoaded.mockResolvedValue('ready');
@@ -74,6 +101,33 @@ describe('remote model readiness', () => {
     mockedStream.mockResolvedValue({text: 'ok', content: 'ok'});
     modelStore.engine = undefined;
     modelStore.activeRemoteBinding = undefined;
+  });
+
+  it('keeps online rules non-blocking but drains their signal reads before teardown', async () => {
+    let finishFetch!: (rules: DeviceRules) => void;
+    const fetched = new Promise<DeviceRules>(resolve => {
+      finishFetch = resolve;
+    });
+    (fetchRules as jest.Mock).mockReturnValueOnce(fetched);
+
+    // Foreground startup must complete even while the online request is pending.
+    await modelStore.initializeStore();
+    let drained = false;
+    const completion = modelStore.whenInitialized().then(() => {
+      drained = true;
+    });
+    try {
+      await Promise.resolve();
+      await Promise.resolve();
+      expect(drained).toBe(false);
+    } finally {
+      const rules = parseDeviceRules(iosRules, '1.21.0');
+      finishFetch({...rules, rulesVersion: 'lifecycle-regression'});
+      await completion;
+    }
+    expect(drained).toBe(true);
+    // The fetched override really ran through readDeviceSignals and reconcile.
+    expect(modelStore.rulesVersion).toBe('lifecycle-regression');
   });
 
   it.each([

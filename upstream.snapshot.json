@@ -124,6 +124,14 @@
     {
       "path": "ios/PocketPal/AppDelegate.swift",
       "sha": "cbdca6b9438c616dd3570830531873eb22b5ab38"
+    },
+    {
+      "path": "src/store/ModelStore.ts",
+      "sha": "ef050794ff528ae902bdbb0aab5d2974cf4f46ac"
+    },
+    {
+      "path": "src/store/__tests__/ModelStore.routerReadiness.test.ts",
+      "sha": "8fa980b34249586c4e9e5f894aa10c3c386cd009"
     }
   ],
   "local_snapshot_commit": "2bce42d865e3300dbce874743c8496c8a6ea2eb5"

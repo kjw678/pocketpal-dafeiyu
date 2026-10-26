@@ -267,11 +267,22 @@ class ModelStore {
   // every launch (see drainPendingProjectionCleanup).
   pendingProjectionCleanupIds: string[] = [];
 
+  // Runtime lifecycle promises, never observable or persisted. Foreground
+  // startup stays independent of slow online rules and metadata requests.
+  private initializationPromise: Promise<void> = Promise.resolve();
+  private backgroundInitialization: Promise<unknown> = Promise.resolve();
+
   constructor() {
     makeAutoObservable<
       ModelStore,
-      'postCompletionProbeFor' | 'generationSlot' | 'isReleasingContext'
+      | 'postCompletionProbeFor'
+      | 'generationSlot'
+      | 'isReleasingContext'
+      | 'initializationPromise'
+      | 'backgroundInitialization'
     >(this, {
+      initializationPromise: false,
+      backgroundInitialization: false,
       postCompletionProbeFor: false,
       generationSlot: false,
       isReleasingContext: false,
@@ -284,7 +295,7 @@ class ModelStore {
       remoteModels: computed,
       activeDownloads: computed,
     });
-    makePersistable(this, {
+    this.initializationPromise = makePersistable(this, {
       name: 'ModelStore',
       properties: [
         'models',
@@ -303,7 +314,7 @@ class ModelStore {
       storage: AsyncStorage,
     }).then(async () => {
       await this.initializeThreadCount();
-      this.initializeStore();
+      await this.initializeStore();
     });
 
     this.setupAppStateListener();
@@ -354,6 +365,13 @@ class ModelStore {
       },
     });
   }
+
+  // Owners (including tests) can drain startup before releasing their runtime.
+  // Calling this is optional: normal app startup still runs in the background.
+  whenInitialized = async (): Promise<void> => {
+    await this.initializationPromise;
+    await this.backgroundInitialization;
+  };
 
   private async initializeThreadCount() {
     try {
@@ -817,7 +835,7 @@ class ModelStore {
 
     // Upgrade past the bundled floor to the online rules override in the
     // background; reconcile (id-keyed, dedup) folds in any newer set.
-    this.upgradeToFetchedRules();
+    const rulesUpgrade = this.upgradeToFetchedRules();
 
     await this.initializeGpuSettings(); // Should be awaited to ensure GPU settings are applied before initializing context
 
@@ -846,11 +864,13 @@ class ModelStore {
       }
     }
 
-    // Load missing GGUF metadata for downloaded models (background, non-blocking)
-    this.loadMissingGGUFMetadata();
-
-    // Check if we need to reload an auto-released model (for app restarts)
-    this.checkAndReloadAutoReleasedModel();
+    // Retain the background work so an owner can await the entire lifecycle,
+    // without making the bundled preset list wait for network or model reloads.
+    this.backgroundInitialization = Promise.all([
+      rulesUpgrade,
+      this.loadMissingGGUFMetadata(),
+      this.checkAndReloadAutoReleasedModel(),
+    ]);
   };
 
   // Synthesize the minimal {hfModel, modelFile} pair the unchanged hfAsModel
@@ -1979,7 +1999,7 @@ class ModelStore {
    * Load GGUF metadata for downloaded models that don't have it yet.
    * Runs in background, doesn't block startup.
    */
-  private loadMissingGGUFMetadata = () => {
+  private loadMissingGGUFMetadata = async () => {
     const modelsNeedingMetadata = this.models.filter(
       m =>
         m.isDownloaded &&
@@ -1991,21 +2011,19 @@ class ModelStore {
       return;
     }
 
-    // Fetch in background, don't block startup
-    (async () => {
-      for (const model of modelsNeedingMetadata) {
-        try {
-          await this.fetchAndPersistGGUFMetadata(model);
-        } catch (error) {
-          // Log but continue - not critical for startup
-          console.warn(
-            '[ModelStore] Failed to fetch metadata for',
-            model.name,
-            error,
-          );
-        }
+    // Callers may retain this promise while still running it in the background.
+    for (const model of modelsNeedingMetadata) {
+      try {
+        await this.fetchAndPersistGGUFMetadata(model);
+      } catch (error) {
+        // Log but continue - not critical for startup
+        console.warn(
+          '[ModelStore] Failed to fetch metadata for',
+          model.name,
+          error,
+        );
       }
-    })();
+    }
   };
 
   /**
